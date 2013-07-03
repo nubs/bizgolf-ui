@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Holes{% endblock %}
+{% block content %}
+  {% for hole in holes %}
+    <h2>{{ hole.title|e }} <small>{{ hole.description|e }}</small></h2>
+  {% endfor %}
+{% endblock %}

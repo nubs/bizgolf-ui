@@ -1,0 +1,21 @@
+{
+    "name": "nubs/codegolf-ui",
+    "description": "A codegolf webui.",
+    "keywords": ["codegolf"],
+    "authors": [
+        {
+            "name": "Spencer Rinehart",
+            "email": "anubis@overthemonkey.com",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "ext-mcrypt": "*",
+        "nubs/codegolf": "dev-master",
+        "slim/slim": "~2.2",
+        "slim/extras": "~2.0",
+        "twig/twig": "~1.13"
+    }
+}
