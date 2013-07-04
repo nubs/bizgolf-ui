@@ -10,5 +10,5 @@ return function(\Slim\Slim $app, array $models, array $middleware) {
     $homeRoute($app, $models['hole'], $middleware['loadAuth']);
 
     $holesRoute = require 'routes/holes.php';
-    $holesRoute($app, $models['hole']);
+    $holesRoute($app, $models['hole'], $middleware['loadAuth']);
 };
