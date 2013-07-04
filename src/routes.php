@@ -4,7 +4,7 @@ return function(\Slim\Slim $app, array $models, array $middleware) {
     $loginRoute($app, $models['user']);
 
     $homeRoute = require 'routes/home.php';
-    $homeRoute($app, $models['hole']);
+    $homeRoute($app, $models['hole'], $middleware['loadAuth']);
 
     $holesRoute = require 'routes/holes.php';
     $holesRoute($app, $models['hole']);

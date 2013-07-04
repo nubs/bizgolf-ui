@@ -1,8 +1,7 @@
 <?php
-return function(\Slim\Slim $app, array $userModel) {
-    return function() use($app, $userModel) {
-        $credentials = json_decode($app->getEncryptedCookie('auth'), true);
-        if (!isset($credentials['username'], $credentials['password']) || !$userModel['exists']($credentials)) {
+return function(\Slim\Slim $app) {
+    return function() use($app) {
+        if ($app->config('codegolf.username') === null) {
             $app->redirect($app->urlFor('login'));
         }
     };

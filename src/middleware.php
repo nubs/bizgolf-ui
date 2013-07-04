@@ -1,5 +1,6 @@
 <?php
 return function(\Slim\Slim $app, array $models) {
+    $loadAuth = require 'middleware/loadAuth.php';
     $auth = require 'middleware/auth.php';
-    return ['auth' => $auth($app, $models['user'])];
+    return ['loadAuth' => $loadAuth($app, $models['user']), 'auth' => $auth($app)];
 };

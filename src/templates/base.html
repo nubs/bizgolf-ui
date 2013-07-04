@@ -7,7 +7,16 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   </head>
   <body>
-    <div class="page-header"><h1><a href="/">Codegolf <small>What's your par?</small></a></h1></div>
+    <div class="page-header">
+      <div class="pull-right">
+        {% if username %}
+          Welcome, {{ username|e }}
+        {% else %}
+          <a href="/login">Login</a>
+        {% endif %}
+      </div>
+      <h1><a href="/">Codegolf <small>What's your par?</small></a></h1>
+    </div>
     {% if flash.error %}
       <div class="alert alert-error">{{ flash.error }}</div>
     {% endif %}
