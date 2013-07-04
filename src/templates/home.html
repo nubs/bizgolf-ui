@@ -2,6 +2,6 @@
 {% block title %}Holes{% endblock %}
 {% block content %}
   {% for hole in holes %}
-    <h2>{{ hole.title|e }} <small>{{ hole.description|e }}</small></h2>
+    <h2><a href="/holes/{{ hole._id|e('url') }}">{{ hole.title|e }} <small>{{ hole.shortDescription|e }}</small></a></h2>
   {% endfor %}
 {% endblock %}

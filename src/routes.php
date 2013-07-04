@@ -5,4 +5,7 @@ return function(\Slim\Slim $app, array $models, array $middleware) {
 
     $homeRoute = require 'routes/home.php';
     $homeRoute($app, $models['hole']);
+
+    $holesRoute = require 'routes/holes.php';
+    $holesRoute($app, $models['hole']);
 };
