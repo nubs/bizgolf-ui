@@ -14,9 +14,11 @@ return function(\Slim\Slim $app, array $userModel) {
             $app->redirect($app->urlFor('register'));
         }
 
-        if ($userModel['exists'](['username' =>$username])) {
+        try {
+            $userModel['findOne'](['username' => $username]);
             $app->flash('error', "Username {$username} taken.");
             $app->redirect($app->urlFor('register'));
+        } catch (Exception $e) {
         }
 
         try {

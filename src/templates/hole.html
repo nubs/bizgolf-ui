@@ -49,11 +49,11 @@
         <tr class="{% if submission.result %}success{% else %}error{% endif %}">
           <td>{{ submission.username|e }}</td>
           <td>
-            {% if submission.username == username %}
+            {% if submission.username == username or isAdmin %}
               <a href="/holes/{{ hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
             {% endif %}
             {{ submission.length|e }}
-            {% if submission.username == username %}
+            {% if submission.username == username or isAdmin %}
               </a>
             {% endif %}
           </td>

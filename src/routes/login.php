@@ -8,8 +8,10 @@ return function(\Slim\Slim $app, array $userModel) {
         $req = $app->request();
         $credentials = ['username' => $req->post('username'), 'password' => $req->post('password')];
 
-        if (!$userModel['exists']($credentials)) {
-            $app->flash('error', 'Credentials entered were invalid.');
+        try {
+            $userModel['findOne']($credentials);
+        } catch (Exception $e) {
+            $app->flash('error', $e->getMessage());
             $app->redirect($app->urlFor('login'));
         }
 

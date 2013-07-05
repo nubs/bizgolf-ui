@@ -9,7 +9,10 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('home'));
         }
 
-        $app->render('hole.html', ['hole' => $hole, 'username' => $app->config('codegolf.username')]);
+        $app->render(
+            'hole.html',
+            ['hole' => $hole, 'username' => $app->config('codegolf.username'), 'isAdmin' => $app->config('codegolf.isAdmin')]
+        );
     })->name('hole');
 
     $app->post('/holes/:holeId/submissions', $loadAuth, $auth, function($holeId) use ($app, $holeModel) {
@@ -36,9 +39,10 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         }
 
         $username = $app->config('codegolf.username');
+        $isAdmin = $app->config('codegolf.isAdmin');
         $submission = null;
         foreach ($hole['submissions'] as $holeSubmission) {
-            if ((string)$holeSubmission['_id'] === $submissionId && $holeSubmission['username'] === $username) {
+            if ((string)$holeSubmission['_id'] === $submissionId && ( $holeSubmission['username'] === $username || $isAdmin)) {
                 $submission = $holeSubmission;
                 break;
             }
