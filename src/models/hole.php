@@ -26,6 +26,11 @@ return function(MongoDB $db) {
             $result = \Codegolf\judge(\Codegolf\loadHole($hole['fileName']), \Codegolf\createImage('php-5.5', $submission));
             $result['_id'] = new MongoID();
             $result['username'] = $username;
+
+            $code = file_get_contents($submission);
+            $result['code'] = utf8_encode($code);
+            $result['length'] = strlen($code);
+
             $collection->update(['_id' => new MongoID($id)], ['$push' => ['submissions' => $result]]);
         },
     ];
