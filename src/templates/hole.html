@@ -48,7 +48,15 @@
       {% for submission in hole.submissions %}
         <tr class="{% if submission.result %}success{% else %}error{% endif %}">
           <td>{{ submission.username|e }}</td>
-          <td>{{ submission.length|e }}</td>
+          <td>
+            {% if submission.username == username %}
+              <a href="/holes/{{ hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
+            {% endif %}
+            {{ submission.length|e }}
+            {% if submission.username == username %}
+              </a>
+            {% endif %}
+          </td>
         </tr>
       {% endfor %}
     </table>
