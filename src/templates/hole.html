@@ -14,4 +14,11 @@
     <dt>Sample:</dt>
     <dd><pre>{{ hole.sample|e }}</pre></dd>
   </dl>
+  {% if username %}
+    <form enctype="multipart/form-data" method="post" action="/holes/{{ hole._id|e('url') }}/submissions">
+      <legend>Submit a file</legend>
+      <input type="file" name="submission" /><br />
+      <button type="submit" class="btn">Submit</button>
+    </form>
+  {% endif %}
 {% endblock %}
