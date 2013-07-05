@@ -25,6 +25,20 @@
       {% endif %}
     </div>
     <div class="span4">
+      <h3>Scoreboard</h3>
+      <table class="table">
+        <tr>
+          <th>Username</th>
+          <th>Score</th>
+        </tr>
+        {% for submission in hole.scoreboard %}
+          <tr>
+            <td>{{ submission.username|e }}</td>
+            <td>{{ submission.score|e }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+
       <h3>Recent Scores</h3>
       <table class="table">
         <tr>
