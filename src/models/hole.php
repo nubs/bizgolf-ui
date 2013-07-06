@@ -73,14 +73,27 @@ return function(MongoDB $db) {
             throw new Exception("Hole '{$id}' does not exist.");
         }
 
+        if (!array_key_exists('submissions', $hole)) {
+            $hole['submissions'] = [];
+        }
+
         $hole['scoreboard'] = $addScores($bestForEachUser($hole['submissions']));
 
         return $hole;
     };
 
     return [
-        'find' => function(array $conditions = array()) use($collection) {
-            return iterator_to_array($collection->find($conditions));
+        'find' => function(array $conditions = array()) use($collection, $bestForEachUser, $addScores) {
+            $holes = iterator_to_array($collection->find($conditions));
+            foreach ($holes as &$hole) {
+                if (!array_key_exists('submissions', $hole)) {
+                    $hole['submissions'] = [];
+                }
+
+                $hole['scoreboard'] = $addScores($bestForEachUser($hole['submissions']));
+            }
+
+            return $holes;
         },
         'findOne' => $findOne,
         'addSubmission' => function($id, array $user, $submission)  use($collection, $findOne) {

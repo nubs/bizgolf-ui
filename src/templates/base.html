@@ -10,7 +10,7 @@
     <div class="page-header">
       <div class="pull-right">
         {% if user %}
-          Welcome, {{ user.username|e }}
+          Welcome, <a href="/users/{{ user._id|e('url') }}">{{ user.username|e }}</a>
         {% else %}
           <a href="/login">Login</a> / <a href="/register">Register</a>
         {% endif %}

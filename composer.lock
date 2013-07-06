@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/codegolf.git",
-                "reference": "87263022eebbd9d598a9cb3511e155d2bc84d0f4"
+                "reference": "dc195be76ef5472decd82ef6e2b716f1770a5c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/codegolf/zipball/87263022eebbd9d598a9cb3511e155d2bc84d0f4",
-                "reference": "87263022eebbd9d598a9cb3511e155d2bc84d0f4",
+                "url": "https://api.github.com/repos/nubs/codegolf/zipball/dc195be76ef5472decd82ef6e2b716f1770a5c91",
+                "reference": "dc195be76ef5472decd82ef6e2b716f1770a5c91",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
             "keywords": [
                 "codegolf"
             ],
-            "time": "2013-07-05 17:14:39"
+            "time": "2013-07-06 02:04:32"
         },
         {
             "name": "slim/extras",

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ viewUser.username|e }}{% endblock %}
+{% block content %}
+  <h2>{{ viewUser.username|e }}</h2>
+  <h3>Submissions</h3>
+  <table class="table">
+    <tr>
+      <th>Hole</th>
+      <th>Length</th>
+      <th>Score</th>
+    </tr>
+    {% for submission in viewUser.submissions %}
+      <tr>
+        <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
+        <td>
+          <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission.submission._id|e('url') }}">
+            {{ submission.submission.length|e }}
+          </a>
+        </td>
+        <td>{{ submission.submission.score|e }}</td>
+      </tr>
+    {% endfor %}
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td>{{ viewUser.stats.score|e }}</td>
+    </tr>
+  </table>
+{% endblock %}
