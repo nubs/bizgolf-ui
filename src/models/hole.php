@@ -83,7 +83,7 @@ return function(MongoDB $db) {
     };
 
     return [
-        'find' => function(array $conditions = array()) use($collection, $bestForEachUser, $addScores) {
+        'find' => function(array $conditions = []) use($collection, $bestForEachUser, $addScores) {
             $holes = iterator_to_array($collection->find($conditions));
             foreach ($holes as &$hole) {
                 if (!array_key_exists('submissions', $hole)) {
