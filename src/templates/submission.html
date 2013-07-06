@@ -11,6 +11,8 @@
     <dd><pre>{{ submission.output|e }}</pre></dd>
     <dt>Expected:</dt>
     <dd><pre>{{ submission.sample|e }}</pre></dd>
+    <dt>Diff:</dt>
+    <dd><pre>{% autoescape false %}{{ submission.diff }}{% endautoescape %}</pre></dd>
     <dt>Error:</dt>
     <dd><pre>{{ submission.stderr|e }}</pre></dd>
     <dt>Constant:</dt>

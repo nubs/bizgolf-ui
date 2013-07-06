@@ -16,6 +16,7 @@
         "nubs/codegolf": "dev-master",
         "slim/slim": "~2.2",
         "slim/extras": "~2.0",
-        "twig/twig": "~1.13"
+        "twig/twig": "~1.13",
+        "cogpowered/finediff": "~0.0.1"
     }
 }

@@ -53,6 +53,14 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         }
 
         $submission['rawCode'] = utf8_decode($submission['code']);
+
+        if ($submission['result']) {
+            $submission['diff'] = '';
+        } else {
+            $diff = new \cogpowered\FineDiff\Diff();
+            $submission['diff'] = $diff->render($submission['output'], $submission['sample']);
+        }
+
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
 };
