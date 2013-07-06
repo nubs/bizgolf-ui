@@ -9,10 +9,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('home'));
         }
 
-        $app->render(
-            'hole.html',
-            ['hole' => $hole, 'username' => $app->config('codegolf.username'), 'isAdmin' => $app->config('codegolf.isAdmin')]
-        );
+        $app->render('hole.html', ['hole' => $hole, 'user' => $app->config('codegolf.user')]);
     })->name('hole');
 
     $app->post('/holes/:holeId/submissions', $loadAuth, $auth, function($holeId) use ($app, $holeModel) {
@@ -21,7 +18,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
                 throw new Exception('Error uploading submission.');
             }
 
-            $holeModel['addSubmission']($holeId, $app->config('codegolf.username'), $_FILES['submission']['tmp_name']);
+            $holeModel['addSubmission']($holeId, $app->config('codegolf.user'), $_FILES['submission']['tmp_name']);
         } catch (Exception $e) {
             $app->flash('error', $e->getMessage());
         }
@@ -38,11 +35,13 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('home'));
         }
 
-        $username = $app->config('codegolf.username');
-        $isAdmin = $app->config('codegolf.isAdmin');
+        $user = $app->config('codegolf.user');
         $submission = null;
         foreach ($hole['submissions'] as $holeSubmission) {
-            if ((string)$holeSubmission['_id'] === $submissionId && ( $holeSubmission['username'] === $username || $isAdmin)) {
+            if (
+                (string)$holeSubmission['_id'] === $submissionId &&
+                ( $holeSubmission['user']['_id'] === (string)$user['_id'] || $user['isAdmin'])
+            ) {
                 $submission = $holeSubmission;
                 break;
             }
@@ -54,6 +53,6 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         }
 
         $submission['rawCode'] = utf8_decode($submission['code']);
-        $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'username' => $username]);
+        $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
 };

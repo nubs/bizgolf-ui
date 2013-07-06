@@ -16,7 +16,7 @@
         <dt>Sample:</dt>
         <dd><pre>{{ hole.sample|e }}</pre></dd>
       </dl>
-      {% if username %}
+      {% if user %}
         <form enctype="multipart/form-data" method="post" action="/holes/{{ hole._id|e('url') }}/submissions">
           <legend>Submit a file</legend>
           <input type="file" name="submission" /><br />
@@ -33,7 +33,7 @@
         </tr>
         {% for submission in hole.scoreboard %}
           <tr>
-            <td>{{ submission.username|e }}</td>
+            <td>{{ submission.user.username|e }}</td>
             <td>{{ submission.score|e }}</td>
           </tr>
         {% endfor %}
@@ -47,13 +47,13 @@
         </tr>
       {% for submission in hole.submissions %}
         <tr class="{% if submission.result %}success{% else %}error{% endif %}">
-          <td>{{ submission.username|e }}</td>
+          <td>{{ submission.user.username|e }}</td>
           <td>
-            {% if submission.username == username or isAdmin %}
+            {% if submission.user._id == user._id or user.isAdmin %}
               <a href="/holes/{{ hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
             {% endif %}
             {{ submission.length|e }}
-            {% if submission.username == username or isAdmin %}
+            {% if submission.user._id == user._id or user.isAdmin %}
               </a>
             {% endif %}
           </td>

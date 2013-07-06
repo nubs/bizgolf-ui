@@ -10,8 +10,7 @@ return function(\Slim\Slim $app, array $userModel) {
             }
 
             if ($user !== null) {
-                $app->config('codegolf.username', $user['username']);
-                $app->config('codegolf.isAdmin', array_key_exists('isAdmin', $user) && $user['isAdmin']);
+                $app->config('codegolf.user', $user);
             }
         }
     };

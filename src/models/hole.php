@@ -5,11 +5,11 @@ return function(MongoDB $db) {
     $partitionByUser = function(array $submissions) {
         $users = [];
         foreach ($submissions as $submission) {
-            $username = $submission['username'];
-            if (array_key_exists($username, $users)) {
-                $users[$username][] = $submission;
+            $userId = (string)$submission['user']['_id'];
+            if (array_key_exists($userId, $users)) {
+                $users[$userId][] = $submission;
             } else {
-                $users[$username] = [$submission];
+                $users[$userId] = [$submission];
             }
         }
 
@@ -20,13 +20,13 @@ return function(MongoDB $db) {
         $users = $partitionByUser($submissions);
         $result = [];
 
-        foreach ($users as $username => $userSubmissions) {
+        foreach ($users as $userId => $userSubmissions) {
             $passingSubmissions = array_filter($userSubmissions, function($submission) {
                 return $submission['result'];
             });
 
             if (!empty($passingSubmissions)) {
-                $result[$username] = array_reduce($passingSubmissions, functioN($min, $submission) {
+                $result[$userId] = array_reduce($passingSubmissions, function($min, $submission) {
                     if ($min === null || $submission['length'] < $min['length']) {
                         return $submission;
                     }
@@ -83,11 +83,11 @@ return function(MongoDB $db) {
             return iterator_to_array($collection->find($conditions));
         },
         'findOne' => $findOne,
-        'addSubmission' => function($id, $username, $submission)  use($collection, $findOne) {
+        'addSubmission' => function($id, array $user, $submission)  use($collection, $findOne) {
             $hole = $findOne($id);
             $result = \Codegolf\judge(\Codegolf\loadHole($hole['fileName']), \Codegolf\createImage('php-5.5', $submission));
             $result['_id'] = new MongoID();
-            $result['username'] = $username;
+            $result['user'] = $user;
 
             $code = file_get_contents($submission);
             $result['code'] = utf8_encode($code);

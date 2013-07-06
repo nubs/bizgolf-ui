@@ -9,8 +9,8 @@
   <body>
     <div class="page-header">
       <div class="pull-right">
-        {% if username %}
-          Welcome, {{ username|e }}
+        {% if user %}
+          Welcome, {{ user.username|e }}
         {% else %}
           <a href="/login">Login</a> / <a href="/register">Register</a>
         {% endif %}
