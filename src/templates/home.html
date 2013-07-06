@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Holes{% endblock %}
 {% block content %}
+  <h2>Holes</h2>
   {% for hole in holes %}
-    <h2><a href="/holes/{{ hole._id|e('url') }}">{{ hole.title|e }} <small>{{ hole.shortDescription|e }}</small></a></h2>
+    <h3><a href="/holes/{{ hole._id|e('url') }}">{{ hole.title|e }} <small>{{ hole.shortDescription|e }}</small></a></h3>
   {% endfor %}
+  <h2>Users</h2>
+  <table class="table">
+    <tr>
+      <th>Username</th>
+      <th>Score</th>
+    </tr>
+    {% for user in users %}
+      <tr>
+        <td><a href="/users/{{ user._id|e('url') }}">{{ user.username|e }}</a></td>
+        <td>{{ user.stats.score|e }}</td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}
