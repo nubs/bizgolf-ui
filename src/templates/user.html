@@ -20,10 +20,10 @@
         <td>{{ submission.submission.score|e }}</td>
       </tr>
     {% endfor %}
-    <tr>
-      <td>Total</td>
+    <tr class="info">
+      <td><strong>Total</strong></td>
       <td></td>
-      <td>{{ viewUser.stats.score|e }}</td>
+      <td><strong>{{ viewUser.stats.score|e }}</strong></td>
     </tr>
   </table>
 {% endblock %}
