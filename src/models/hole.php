@@ -65,7 +65,7 @@ return function(MongoDB $db) {
     $findOne = function($id) use($collection, $bestForEachUser, $addScores) {
         $hole = null;
         try {
-            $hole = $collection->findOne(['_id' => new MongoID($id)]);
+            $hole = $collection->findOne(['_id' => new MongoId($id)]);
         } catch (Exception $e) {
         }
 
@@ -99,14 +99,14 @@ return function(MongoDB $db) {
         'addSubmission' => function($id, array $user, $submission)  use($collection, $findOne) {
             $hole = $findOne($id);
             $result = \Codegolf\judge(\Codegolf\loadHole($hole['fileName']), \Codegolf\createImage('php-5.5', $submission));
-            $result['_id'] = new MongoID();
+            $result['_id'] = new MongoId();
             $result['user'] = $user;
 
             $code = file_get_contents($submission);
             $result['code'] = utf8_encode($code);
             $result['length'] = strlen($code);
 
-            $collection->update(['_id' => new MongoID($id)], ['$push' => ['submissions' => $result]]);
+            $collection->update(['_id' => new MongoId($id)], ['$push' => ['submissions' => $result]]);
         },
     ];
 };

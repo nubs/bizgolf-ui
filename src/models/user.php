@@ -9,7 +9,7 @@ return function(MongoDB $db, array $holeModel) {
         'findOne' => function($id) use($collection, $holeModel) {
             $user = null;
             try {
-                $user = $collection->findOne(['_id' => new MongoID($id)]);
+                $user = $collection->findOne(['_id' => new MongoId($id)]);
             } catch (Exception $e) {
             }
 
