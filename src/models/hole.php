@@ -98,7 +98,7 @@ return function(MongoDB $db) {
         'findOne' => $findOne,
         'addSubmission' => function($id, array $user, $submission)  use($collection, $findOne) {
             $hole = $findOne($id);
-            $result = \Codegolf\judge(\Codegolf\loadHole($hole['fileName']), \Codegolf\createImage('php-5.5', $submission));
+            $result = \Bizgolf\judge(\Bizgolf\loadHole($hole['fileName']), \Bizgolf\createImage('php-5.5', $submission));
             $result['_id'] = new MongoId();
             $result['user'] = $user;
 

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0e2f1373011ac701d6c3158c9964aaba",
+    "hash": "aafaf1af0782eefcb219bde80c55ebdc",
     "packages": [
         {
             "name": "cogpowered/finediff",
@@ -57,17 +57,17 @@
             "time": "2013-03-14 16:18:08"
         },
         {
-            "name": "nubs/codegolf",
+            "name": "nubs/bizgolf",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nubs/codegolf.git",
-                "reference": "c54b9b6f166e5b426963955ce05cec19f4a1413d"
+                "url": "https://github.com/nubs/bizgolf.git",
+                "reference": "89bd54811d4fc5c21f802fe10ca333559c0add96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/codegolf/zipball/c54b9b6f166e5b426963955ce05cec19f4a1413d",
-                "reference": "c54b9b6f166e5b426963955ce05cec19f4a1413d",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/89bd54811d4fc5c21f802fe10ca333559c0add96",
+                "reference": "89bd54811d4fc5c21f802fe10ca333559c0add96",
                 "shasum": ""
             },
             "require": {
@@ -93,11 +93,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A codegolf server framework.",
+            "description": "A library that interacts with Docker in order to execute user's code golf submissions and verify their correctness.",
             "keywords": [
-                "codegolf"
+                "codegolf",
+                "competition",
+                "docker",
+                "hackathon"
             ],
-            "time": "2013-07-06 02:42:17"
+            "time": "2013-07-07 01:47:23"
         },
         {
             "name": "slim/extras",
@@ -251,7 +254,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "nubs/codegolf": 20
+        "nubs/bizgolf": 20
     },
     "platform": {
         "php": ">=5.4.0",

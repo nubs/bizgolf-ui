@@ -1,7 +1,7 @@
 {
-    "name": "nubs/codegolf-ui",
-    "description": "A codegolf webui.",
-    "keywords": ["codegolf"],
+    "name": "nubs/bizgolf-ui",
+    "description": "A codegolf web interface using the Bizgolf library.",
+    "keywords": ["codegolf", "hackathon", "competition", "docker"],
     "authors": [
         {
             "name": "Spencer Rinehart",
@@ -13,7 +13,7 @@
     "require": {
         "php": ">=5.4.0",
         "ext-mcrypt": "*",
-        "nubs/codegolf": "dev-master",
+        "nubs/bizgolf": "dev-master",
         "slim/slim": "~2.2",
         "slim/extras": "~2.0",
         "twig/twig": "~1.13",
