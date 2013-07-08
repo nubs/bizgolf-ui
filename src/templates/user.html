@@ -13,9 +13,13 @@
       <tr>
         <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
         <td>
-          <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission.submission._id|e('url') }}">
+          {% if submission.submission.user._id == user._id or user.isAdmin %}
+            <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission.submission._id|e('url') }}">
+          {% endif %}
             {{ submission.submission.length|e }}
-          </a>
+          {% if submission.submission.user._id == user._id or user.isAdmin %}
+            </a>
+          {% endif %}
         </td>
         <td>{{ submission.submission.score|e }}</td>
       </tr>
