@@ -21,11 +21,21 @@ Also on the hole details page is a scoreboard including all of the users with pa
 Each user has their own page with a list of their top submissions and a total score for them across all of the holes.
 ![User Details](docs/screenshots/user.png)
 
+### Submitting Files
+When logged in, there is a form for uploading submissions on each hole's page.
+![Submitting Files](docs/screenshots/submit.png)
+
 ### Submissions
-TODO
+When logged in, any references to the authenticated user's submissions becomes a link to view the submission details.  This is particularly useful for failing submissions in order to track down what is not working.
 ![Authenticated Hole Details](docs/screenshots/hole-authenticated.png)
 
-TODO
+Here is an example failure, where the submitted file used a lowercase `w` where it should have used an uppercase `W`.  Included on this page is:
+* the source code (including a raw form where it is NOT utf-8 encoded);
+* the output of the submission, the expected output, and the difference of the two;
+* the stderr output;
+* the value of the constant for the submission;
+* the exit status from executing the submission;
+* the length of the submission in bytes.
 ![Submission Details](docs/screenshots/submission.png)
 
 ## Requirements
