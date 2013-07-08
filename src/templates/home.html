@@ -5,17 +5,47 @@
   {% for hole in holes %}
     <h3><a href="/holes/{{ hole._id|e('url') }}">{{ hole.title|e }} <small>{{ hole.shortDescription|e }}</small></a></h3>
   {% endfor %}
-  <h2>Users</h2>
-  <table class="table table-hover">
-    <tr>
-      <th>Username</th>
-      <th>Score</th>
-    </tr>
-    {% for user in users %}
-      <tr>
-        <td><a href="/users/{{ user._id|e('url') }}">{{ user.username|e }}</a></td>
-        <td>{{ user.stats.score|e }}</td>
-      </tr>
-    {% endfor %}
-  </table>
+
+  <div class="row">
+    <div class="span6">
+      <h2>Scoreboard</h2>
+      <table class="table table-hover">
+        <tr>
+          <th>Username</th>
+          <th>Score</th>
+        </tr>
+        {% for user in users %}
+          <tr>
+            <td><a href="/users/{{ user._id|e('url') }}">{{ user.username|e }}</a></td>
+            <td>{{ user.stats.score|e }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="span6">
+      <h2>Recent Scores</h2>
+      <table class="table table-condensed table-hover">
+        <tr>
+          <th>Hole</th>
+          <th>Username</th>
+          <th>Length</th>
+        </tr>
+        {% for submission in submissions %}
+          <tr class="{% if submission.result %}success{% else %}error{% endif %}">
+            <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
+            <td><a href="/users/{{ submission.user._id|e('url') }}">{{ submission.user.username|e }}</a></td>
+            <td>
+              {% if submission.user._id == user._id or user.isAdmin %}
+                <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
+              {% endif %}
+              {{ submission.length|e }}
+              {% if submission.user._id == user._id or user.isAdmin %}
+                </a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
 {% endblock %}
