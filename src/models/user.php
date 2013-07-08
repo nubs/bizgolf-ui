@@ -29,11 +29,7 @@ return function(MongoDB $db, array $holeModel) {
             }
 
             usort($users, function($a, $b) {
-                if ($a['stats']['score'] === $b['stats']['score']) {
-                    return 0;
-                }
-
-                return $a['stats']['score'] < $b['stats']['score'] ? 1 : -1;
+                return $b['stats']['score'] - $a['stats']['score'];
             });
 
             return $users;

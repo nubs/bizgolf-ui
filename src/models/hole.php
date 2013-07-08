@@ -38,11 +38,7 @@ return function(MongoDB $db) {
         }
 
         usort($result, function($a, $b) {
-            if ($a['length'] === $b['length']) {
-                return 0;
-            }
-
-            return $a['length'] < $b['length'] ? -1 : 1;
+            return $a['length'] - $b['length'];
         });
 
         return $result;
