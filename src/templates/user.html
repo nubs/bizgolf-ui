@@ -2,14 +2,14 @@
 {% block title %}{{ viewUser.username|e }}{% endblock %}
 {% block content %}
   <h2>{{ viewUser.username|e }}</h2>
-  <h3>Submissions</h3>
+  <h3>Scoreboard</h3>
   <table class="table table-hover">
     <tr>
       <th>Hole</th>
       <th>Length</th>
       <th>Score</th>
     </tr>
-    {% for submission in viewUser.submissions %}
+    {% for submission in viewUser.scoreboard %}
       <tr>
         <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
         <td>

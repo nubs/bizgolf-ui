@@ -2,19 +2,19 @@
 return function(MongoDB $db, array $holeModel) {
     $collection = $db->users;
 
-    $loadSubmissions = function($user) use($holeModel) {
-        $user['submissions'] = [];
+    $loadScoreboard = function($user) use($holeModel) {
+        $user['scoreboard'] = [];
         $user['stats'] = ['score' => 0];
         foreach ($holeModel['find']() as $hole) {
-            $userSubmission = array_values(array_filter($hole['scoreboard'], function($submission) use($user) {
+            $userScoreboard = array_values(array_filter($hole['scoreboard'], function($submission) use($user) {
                 return $submission['user']['_id'] == $user['_id'];
             }));
 
-            if (empty($userSubmission)) {
-                $user['submissions'][] = ['submission' => ['length' => null, 'score' => 0], 'hole' => $hole];
+            if (empty($userScoreboard)) {
+                $user['scoreboard'][] = ['submission' => ['length' => null, 'score' => 0], 'hole' => $hole];
             } else {
-                $user['submissions'][] = ['submission' => $userSubmission[0], 'hole' => $hole];
-                $user['stats']['score'] += $userSubmission[0]['score'];
+                $user['scoreboard'][] = ['submission' => $userScoreboard[0], 'hole' => $hole];
+                $user['stats']['score'] += $userScoreboard[0]['score'];
             }
         }
 
@@ -22,10 +22,10 @@ return function(MongoDB $db, array $holeModel) {
     };
 
     return [
-        'find' => function(array $conditions = []) use($collection, $loadSubmissions) {
+        'find' => function(array $conditions = []) use($collection, $loadScoreboard) {
             $users = iterator_to_array($collection->find($conditions));
             foreach ($users as &$user) {
-                $user = $loadSubmissions($user);
+                $user = $loadScoreboard($user);
             }
 
             usort($users, function($a, $b) {
@@ -41,7 +41,7 @@ return function(MongoDB $db, array $holeModel) {
         'auth' => function(array $conditions = []) use($collection) {
             return $collection->findOne($conditions);
         },
-        'findOne' => function($id) use($collection, $loadSubmissions) {
+        'findOne' => function($id) use($collection, $loadScoreboard) {
             $user = null;
             try {
                 $user = $collection->findOne(['_id' => new MongoId($id)]);
@@ -52,7 +52,7 @@ return function(MongoDB $db, array $holeModel) {
                 throw new Exception("User '{$id}' does not exist.");
             }
 
-            return $loadSubmissions($user);
+            return $loadScoreboard($user);
         },
         'create' => function(array $fields) use($collection) {
             try {
