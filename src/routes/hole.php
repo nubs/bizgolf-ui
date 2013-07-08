@@ -9,6 +9,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('home'));
         }
 
+        $hole['submissions'] = array_slice($hole['submissions'], 0, 20);
         $app->render('hole.html', ['hole' => $hole, 'user' => $app->config('codegolf.user')]);
     })->name('hole');
 
