@@ -6,9 +6,9 @@ return function(MongoDB $db, array $holeModel) {
         $user['submissions'] = [];
         $user['stats'] = ['score' => 0];
         foreach ($holeModel['find']() as $hole) {
-            $userSubmission = array_filter($hole['scoreboard'], function($submission) use($user) {
+            $userSubmission = array_values(array_filter($hole['scoreboard'], function($submission) use($user) {
                 return $submission['user']['_id'] == $user['_id'];
-            });
+            }));
 
             if (empty($userSubmission)) {
                 $user['submissions'][] = ['submission' => ['length' => null, 'score' => 0], 'hole' => $hole];
