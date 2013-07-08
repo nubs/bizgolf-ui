@@ -3,12 +3,20 @@ return function(MongoDB $db, array $holeModel) {
     $collection = $db->users;
 
     $loadScoreboard = function($user) use($holeModel) {
+        $user['submissions'] = [];
         $user['scoreboard'] = [];
         $user['stats'] = ['score' => 0];
         foreach ($holeModel['find']() as $hole) {
-            $userScoreboard = array_values(array_filter($hole['scoreboard'], function($submission) use($user) {
+            $isThisUsersSubmission = function($submission) use($user) {
                 return $submission['user']['_id'] == $user['_id'];
-            }));
+            };
+
+            foreach (array_values(array_filter($hole['submissions'], $isThisUsersSubmission)) as $submission) {
+                $submission['hole'] = $hole;
+                $user['submissions'][] = $submission;
+            }
+
+            $userScoreboard = array_values(array_filter($hole['scoreboard'], $isThisUsersSubmission));
 
             if (empty($userScoreboard)) {
                 $user['scoreboard'][] = ['submission' => ['length' => null, 'score' => 0], 'hole' => $hole];
@@ -17,6 +25,10 @@ return function(MongoDB $db, array $holeModel) {
                 $user['stats']['score'] += $userScoreboard[0]['score'];
             }
         }
+
+        usort($user['submissions'], function($a, $b) {
+            return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
+        });
 
         return $user;
     };
