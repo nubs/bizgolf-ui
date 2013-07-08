@@ -38,7 +38,7 @@ return function(MongoDB $db) {
         }
 
         usort($result, function($a, $b) {
-            return $a['length'] - $b['length'];
+            return $a['length'] - $b['length'] ?: $a['_id']->getTimestamp() - $b['_id']->getTimestamp();
         });
 
         return $result;
@@ -73,6 +73,10 @@ return function(MongoDB $db) {
             $hole['submissions'] = [];
         }
 
+        usort($hole['submissions'], function($a, $b) {
+            return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
+        });
+
         $hole['scoreboard'] = $addScores($bestForEachUser($hole['submissions']));
 
         return $hole;
@@ -85,6 +89,10 @@ return function(MongoDB $db) {
                 if (!array_key_exists('submissions', $hole)) {
                     $hole['submissions'] = [];
                 }
+
+                usort($hole['submissions'], function($a, $b) {
+                    return $a['_id']->getTimestamp() - $b['_id']->getTimestamp();
+                });
 
                 $hole['scoreboard'] = $addScores($bestForEachUser($hole['submissions']));
             }
