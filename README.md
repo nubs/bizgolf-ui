@@ -6,6 +6,7 @@ This web interface currently supports PHP 5.5 submissions only for any of the ho
 
 ### Homepage
 The homepage includes a list of all the holes included for the hosted event and an overall scoreboard for the event.
+
 ![Homepage](docs/screenshots/homepage.png)
 
 ### Holes
@@ -15,18 +16,22 @@ Each hole has its own page where the hole's requirements are specified, includin
 * and a sample program that passes the hole's validation and could be used as a basis for a solution or for local validation.
 
 Also on the hole details page is a scoreboard including all of the users with passing submissions ordered by score with the shortest submissions first and a list of recent submissions, both passing and failing, including the lengths of the submissions.
+
 ![Hole Details](docs/screenshots/hole.png)
 
 ### Users
 Each user has their own page with a list of their top submissions and a total score for them across all of the holes.
+
 ![User Details](docs/screenshots/user.png)
 
 ### Submitting Files
 When logged in, there is a form for uploading submissions on each hole's page.
+
 ![Submitting Files](docs/screenshots/submit.png)
 
 ### Submissions
 When logged in, any references to the authenticated user's submissions becomes a link to view the submission details.  This is particularly useful for failing submissions in order to track down what is not working.
+
 ![Authenticated Hole Details](docs/screenshots/hole-authenticated.png)
 
 Here is an example failure, where the submitted file used a lowercase `w` where it should have used an uppercase `W`.  Included on this page is:
@@ -36,6 +41,7 @@ Here is an example failure, where the submitted file used a lowercase `w` where 
 * the value of the constant for the submission;
 * the exit status from executing the submission;
 * the length of the submission in bytes.
+
 ![Submission Details](docs/screenshots/submission.png)
 
 ## Requirements
