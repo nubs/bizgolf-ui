@@ -40,7 +40,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         foreach ($hole['submissions'] as $holeSubmission) {
             if (
                 (string)$holeSubmission['_id'] === $submissionId &&
-                ( $holeSubmission['user']['_id'] === (string)$user['_id'] || !empty($user['isAdmin']))
+                ((string)$holeSubmission['user']['_id'] === (string)$user['_id'] || !empty($user['isAdmin']))
             ) {
                 $submission = $holeSubmission;
                 break;
