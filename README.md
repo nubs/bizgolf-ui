@@ -78,6 +78,7 @@ A better setup for production hosting would be apache or nginx.  For example, he
         Order Allow,Deny
         Allow from all
         RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
         RewriteRule ^ index.php [L]
     </Directory>
 </VirtualHost>
