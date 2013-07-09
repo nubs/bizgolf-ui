@@ -16,24 +16,24 @@ return function(MongoDB $db) {
         return $users;
     };
 
-    $bestForEachUser = function(array $submissions) use($partitionByUser) {
+    $shortestSubmission = function(array $submissions) {
+        return array_reduce($submissions, function($min, $submission) {
+            if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
+                return $submission;
+            }
+
+            return $min;
+        });
+    };
+
+    $bestForEachUser = function(array $submissions) use($partitionByUser, $shortestSubmission) {
         $users = $partitionByUser($submissions);
         $result = [];
 
         foreach ($users as $userId => $userSubmissions) {
-            $passingSubmissions = array_filter($userSubmissions, function($submission) {
-                return $submission['result'];
-            });
-
-            if (!empty($passingSubmissions)) {
-                $result[$userId] = array_reduce($passingSubmissions, function($min, $submission) {
-                    if ($min === null || $submission['length'] < $min['length']) {
-                        return $submission;
-                    }
-
-                    return $min;
-                });
-
+            $shortest = $shortestSubmission($userSubmissions);
+            if ($shortest !== null) {
+                $result[$userId] = $shortest;
             }
         }
 
@@ -44,30 +44,25 @@ return function(MongoDB $db) {
         return $result;
     };
 
-    $addScores = function(array $sortedSubmissions) {
-        if (empty($sortedSubmissions)) {
-            return $sortedSubmissions;
-        }
-
-        $bestLength = (float)$sortedSubmissions[0]['length'];
-
-        foreach ($sortedSubmissions as &$submission) {
-            $submission['score'] = (int)($bestLength * 1000.0 / (float)$submission['length']);
-        }
-
-        return $sortedSubmissions;
-    };
-
-    $fleshOutSubmissions = function($hole) use ($collection, $addScores, $bestForEachUser) {
+    $fleshOutSubmissions = function($hole) use ($collection, $bestForEachUser, $shortestSubmission) {
         if (!array_key_exists('submissions', $hole)) {
             $hole['submissions'] = [];
+        }
+
+        $shortest = $shortestSubmission($hole['submissions']);
+        foreach ($hole['submissions'] as &$submission) {
+            if ($submission['result']) {
+                $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
+            } else {
+                $submission['score'] = 0;
+            }
         }
 
         usort($hole['submissions'], function($a, $b) {
             return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
         });
 
-        $hole['scoreboard'] = $addScores($bestForEachUser($hole['submissions']));
+        $hole['scoreboard'] = $bestForEachUser($hole['submissions']);
 
         return $hole;
     };
