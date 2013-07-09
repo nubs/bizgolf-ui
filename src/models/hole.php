@@ -58,17 +58,7 @@ return function(MongoDB $db) {
         return $sortedSubmissions;
     };
 
-    $findOne = function($id) use($collection, $bestForEachUser, $addScores) {
-        $hole = null;
-        try {
-            $hole = $collection->findOne(['_id' => new MongoId($id)]);
-        } catch (Exception $e) {
-        }
-
-        if ($hole === null) {
-            throw new Exception("Hole '{$id}' does not exist.");
-        }
-
+    $fleshOutSubmissions = function($hole) use ($collection, $addScores, $bestForEachUser) {
         if (!array_key_exists('submissions', $hole)) {
             $hole['submissions'] = [];
         }
@@ -82,19 +72,25 @@ return function(MongoDB $db) {
         return $hole;
     };
 
+    $findOne = function($id) use($collection, $fleshOutSubmissions) {
+        $hole = null;
+        try {
+            $hole = $collection->findOne(['_id' => new MongoId($id)]);
+        } catch (Exception $e) {
+        }
+
+        if ($hole === null) {
+            throw new Exception("Hole '{$id}' does not exist.");
+        }
+
+        return $fleshOutSubmissions($hole);
+    };
+
     return [
-        'find' => function(array $conditions = []) use($collection, $bestForEachUser, $addScores) {
+        'find' => function(array $conditions = []) use($collection, $fleshOutSubmissions) {
             $holes = iterator_to_array($collection->find($conditions));
             foreach ($holes as &$hole) {
-                if (!array_key_exists('submissions', $hole)) {
-                    $hole['submissions'] = [];
-                }
-
-                usort($hole['submissions'], function($a, $b) {
-                    return $a['_id']->getTimestamp() - $b['_id']->getTimestamp();
-                });
-
-                $hole['scoreboard'] = $addScores($bestForEachUser($hole['submissions']));
+                $hole = $fleshOutSubmissions($hole);
             }
 
             return $holes;
