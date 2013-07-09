@@ -39,6 +39,7 @@
         <tr>
           <th>Hole</th>
           <th>Length</th>
+          <th>Score</th>
         </tr>
         {% for submission in viewUser.submissions %}
           <tr class="{% if submission.result %}success{% else %}error{% endif %}">
@@ -52,6 +53,7 @@
                 </a>
               {% endif %}
             </td>
+            <td>{{ submission.score|e }}</td>
           </tr>
         {% endfor %}
       </table>
