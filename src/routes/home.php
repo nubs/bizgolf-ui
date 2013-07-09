@@ -2,6 +2,12 @@
 return function(\Slim\Slim $app, array $holeModel, array $userModel, callable $loadAuth) {
     $app->get('/', $loadAuth, function() use($app, $holeModel, $userModel) {
         $holes = $holeModel['find']();
+        if (empty($app->config('codegolf.user')['isAdmin'])) {
+            $holes = array_filter($holes, function($hole) {
+                return $hole['hasStarted'];
+            });
+        }
+
         $submissions = [];
         foreach ($holes as $hole) {
             foreach ($hole['submissions'] as $submission) {

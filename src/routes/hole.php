@@ -4,6 +4,9 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         $hole = null;
         try {
             $hole = $holeModel['findOne']($holeId);
+            if (empty($app->config('codegolf.user')['isAdmin']) && !$hole['hasStarted']) {
+                throw new Exception('Hole has not started.');
+            }
         } catch (Exception $e) {
             $app->flash('error', $e->getMessage());
             $app->redirect($app->urlFor('home'));
@@ -17,6 +20,11 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         try {
             if (empty($_FILES['submission']) || $_FILES['submission']['error'] !== UPLOAD_ERR_OK) {
                 throw new Exception('Error uploading submission.');
+            }
+
+            $hole = $holeModel['findOne']($holeId);
+            if (empty($app->config('codegolf.user')['isAdmin']) && !$hole['isOpen']) {
+                throw new Exception('Hole is not active.');
             }
 
             $holeModel['addSubmission']($holeId, $app->config('codegolf.user'), $_FILES['submission']['tmp_name']);

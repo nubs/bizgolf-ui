@@ -44,7 +44,7 @@ return function(MongoDB $db) {
         return $result;
     };
 
-    $fleshOutSubmissions = function($hole) use ($collection, $bestForEachUser, $shortestSubmission) {
+    $fleshOutHole = function($hole) use ($collection, $bestForEachUser, $shortestSubmission) {
         if (!array_key_exists('submissions', $hole)) {
             $hole['submissions'] = [];
         }
@@ -64,10 +64,14 @@ return function(MongoDB $db) {
 
         $hole['scoreboard'] = $bestForEachUser($hole['submissions']);
 
+        $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
+        $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
+        $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
+
         return $hole;
     };
 
-    $findOne = function($id) use($collection, $fleshOutSubmissions) {
+    $findOne = function($id) use($collection, $fleshOutHole) {
         $hole = null;
         try {
             $hole = $collection->findOne(['_id' => new MongoId($id)]);
@@ -78,14 +82,14 @@ return function(MongoDB $db) {
             throw new Exception("Hole '{$id}' does not exist.");
         }
 
-        return $fleshOutSubmissions($hole);
+        return $fleshOutHole($hole);
     };
 
     return [
-        'find' => function(array $conditions = []) use($collection, $fleshOutSubmissions) {
+        'find' => function(array $conditions = []) use($collection, $fleshOutHole) {
             $holes = iterator_to_array($collection->find($conditions));
             foreach ($holes as &$hole) {
-                $hole = $fleshOutSubmissions($hole);
+                $hole = $fleshOutHole($hole);
             }
 
             return $holes;
