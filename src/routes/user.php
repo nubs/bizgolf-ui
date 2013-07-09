@@ -21,7 +21,7 @@ return function(\Slim\Slim $app, array $userModel, callable $loadAuth) {
         $credentials = ['username' => $req->post('username'), 'password' => $req->post('password')];
 
         if (!$userModel['auth']($credentials)) {
-            $app->flash('error', $e->getMessage());
+            $app->flash('error', 'Failed to authenticate');
             $app->redirect($app->urlFor('login'));
         }
 
