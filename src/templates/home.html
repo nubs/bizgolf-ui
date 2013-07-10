@@ -8,6 +8,10 @@
       <li><a href="/holes/{{ hole._id|e('url') }}">{{ hole.title|e }}</a> - <small>{{ hole.shortDescription|e }}</small></li>
     {% endfor %}
     </ul>
+    {% if user.isAdmin %}
+      <hr />
+      <a href="/holes/new">Create a new hole</a>
+    {% endif %}
   </div>
 
   <div class="row">

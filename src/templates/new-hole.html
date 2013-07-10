@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Create a New Hole{% endblock %}
+{% block content %}
+<h2>Create a New Hole</h2>
+<form method="post" class="form-horizontal" action="/holes">
+  <div class="control-group">
+    <label class="control-label" for="fileName">Identifier</label>
+    <div class="controls">
+      <input type="text" name="fileName" placeholder="Bizgolf Hole Identifier" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="trim">Trim</label>
+    <div class="controls">
+      <input type="text" name="trim" placeholder="Trim" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="title">Title</label>
+    <div class="controls">
+      <input type="text" name="title" placeholder="Title" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="shortDescription">Short Description</label>
+    <div class="controls">
+      <input type="text" name="shortDescription" placeholder="Short Description" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="description">Description</label>
+    <div class="controls">
+      <textarea name="description" placeholder="Description" class="input-xxlarge" rows="8"></textarea>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="sample">Sample</label>
+    <div class="controls">
+      <textarea name="sample" placeholder="Sample Submission" class="input-xxlarge" rows="8"></textarea>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Submit</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

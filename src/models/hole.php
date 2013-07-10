@@ -128,5 +128,10 @@ return function(MongoDB $db) {
 
             return $changedSubmissions;
         },
+        'create' => function(array $fields) use($collection) {
+            $collection->insert($fields);
+
+            return $fields;
+        },
     ];
 };

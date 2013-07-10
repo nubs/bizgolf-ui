@@ -1,5 +1,14 @@
 <?php
 return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable $auth) {
+    $app->get('/holes/new', $loadAuth, $auth, function() use($app) {
+        if (empty($app->config('codegolf.user')['isAdmin'])) {
+            $app->flash('error', 'Access restricted.');
+            $app->redirect($app->urlFor('home'));
+        }
+
+        $app->render('new-hole.html', ['user' => $app->config('codegolf.user')]);
+    })->name('newHole');
+
     $app->get('/holes/:holeId', $loadAuth, function($holeId) use($app, $holeModel) {
         $hole = null;
         try {
@@ -82,5 +91,29 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->flash('error', $e->getMessage());
             $app->redirect($app->urlFor('hole', ['holeId' => $holeId]));
         }
+    });
+
+    $app->post('/holes', $loadAuth, $auth, function() use($app, $holeModel) {
+        $hole = null;
+        try {
+            if (empty($app->config('codegolf.user')['isAdmin'])) {
+                throw new Exception('Access restricted.');
+            }
+
+            $req = $app->request();
+            $hole = $holeModel['create']([
+                'fileName' => $req->post('fileName'),
+                'trim' => $req->post('trim'),
+                'title' => $req->post('title'),
+                'shortDescription' => $req->post('shortDescription'),
+                'description' => $req->post('description'),
+                'sample' => $req->post('sample'),
+            ]);
+        } catch (Exception $e) {
+            $app->flash('error', $e->getMessage());
+            $app->redirect($app->urlFor('newHole'));
+        }
+
+        $app->redirect($app->urlFor('hole', ['holeId' => (string)$hole['_id']]));
     });
 };
