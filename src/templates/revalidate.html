@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Revalidation Results{% endblock %}
+{% block content %}
+  <h3>Revalidation Results</h3>
+  <table class="table table-condensed table-hover">
+    <tr>
+      <th>Username</th>
+      <th>Length</th>
+      <th>Score</th>
+    </tr>
+    {% for submission in changedSubmissions %}
+      <tr class="{% if submission.result %}success{% else %}error{% endif %}">
+        <td><a href="/users/{{ submission.user._id|e('url') }}">{{ submission.user.username|e }}</a></td>
+        <td>{{ submission.length|e }}</td>
+        <td>{{ submission.score|e }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

@@ -61,8 +61,6 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('hole', ['holeId' => $holeId]));
         }
 
-        $submission['rawCode'] = utf8_decode($submission['code']);
-
         if ($submission['result']) {
             $submission['diff'] = '';
         } else {
@@ -72,4 +70,17 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
 
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
+
+    $app->post('/holes/:holeId/submissions/revalidate', $loadAuth, $auth, function($holeId) use ($app, $holeModel) {
+        try {
+            if (empty($app->config('codegolf.user')['isAdmin'])) {
+                throw new Exception('Access restricted.');
+            }
+
+            $app->render('revalidate.html', ['changedSubmissions' => $holeModel['revalidateSubmissions']($holeId)]);
+        } catch (Exception $e) {
+            $app->flash('error', $e->getMessage());
+            $app->redirect($app->urlFor('hole', ['holeId' => $holeId]));
+        }
+    });
 };

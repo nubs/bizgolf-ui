@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "ea7bc2523993b77d2eb510ece07079e49f913860"
+                "reference": "c63a9196bce30f76bcca9bc10c8f1b6664614b47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/ea7bc2523993b77d2eb510ece07079e49f913860",
-                "reference": "ea7bc2523993b77d2eb510ece07079e49f913860",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/c63a9196bce30f76bcca9bc10c8f1b6664614b47",
+                "reference": "c63a9196bce30f76bcca9bc10c8f1b6664614b47",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-07-07 02:05:11"
+            "time": "2013-07-10 02:34:53"
         },
         {
             "name": "slim/extras",

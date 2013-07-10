@@ -51,6 +51,8 @@ return function(MongoDB $db) {
 
         $shortest = $shortestSubmission($hole['submissions']);
         foreach ($hole['submissions'] as &$submission) {
+            $submission['rawCode'] = utf8_decode($submission['code']);
+
             if ($submission['result']) {
                 $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
             } else {
@@ -106,6 +108,25 @@ return function(MongoDB $db) {
             $result['length'] = strlen($code);
 
             $collection->update(['_id' => new MongoId($id)], ['$push' => ['submissions' => $result]]);
+        },
+        'revalidateSubmissions' => function($id) use ($collection, $findOne) {
+            $hole = $findOne($id);
+            $changedSubmissions = [];
+            foreach ($hole['submissions'] as $submission) {
+                $submissionFile = tempnam(sys_get_temp_dir(), 'revalidate');
+                file_put_contents($submissionFile, $submission['rawCode']);
+                $result = \Bizgolf\judge(\Bizgolf\loadHole($hole['fileName']), \Bizgolf\createImage('php-5.5', $submissionFile));
+                if ($result['result'] !== $submission['result']) {
+                    $submission['result'] = $result['result'];
+                    $collection->update(
+                        ['_id' => new MongoId($id), 'submissions._id' => $submission['_id']],
+                        ['$set' => ['submissions.$.result' => $submission['result']]]
+                    );
+                    $changedSubmissions[] = $submission;
+                }
+            }
+
+            return $changedSubmissions;
         },
     ];
 };

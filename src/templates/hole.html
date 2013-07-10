@@ -15,6 +15,14 @@
         <dd>{{ hole.trim|e }}</dd>
         <dt>Sample:</dt>
         <dd><pre>{{ hole.sample|e }}</pre></dd>
+        {% if user.isAdmin %}
+          <dt>Revalidate:</dt>
+          <dd>
+            <form method="post" action="/holes/{{ hole._id|e('url') }}/submissions/revalidate">
+              <button type="submit" class="btn">Submit</button>
+            </form>
+          </dd>
+        {% endif %}
       </dl>
       {% if user and (user.isAdmin or hole.isOpen) %}
         <form enctype="multipart/form-data" method="post" action="/holes/{{ hole._id|e('url') }}/submissions">
