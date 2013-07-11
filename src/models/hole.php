@@ -71,7 +71,25 @@ return function(MongoDB $db) {
         $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
 
         $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
-        $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
+        if (empty($hole['fileName'])) {
+            if ($hole['specification']['constantValues']['type'] === 'array') {
+                $hole['specification']['constantValues'] = $hole['specification']['constantValues']['values'];
+            } else {
+                $hole['specification']['constantValues'] = create_function('', $hole['specification']['constantValues']['body']);
+            }
+
+            if ($hole['specification']['sample']['type'] === 'string') {
+                $hole['specification']['sample'] = $hole['specification']['sample']['value'];
+            } else {
+                $hole['specification']['sample'] = create_function(
+                    $hole['specification']['sample']['arguments'],
+                    $hole['specification']['sample']['body']
+                );
+            }
+        } else {
+            $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
+        }
+
         $trim = $hole['specification']['trim'];
         $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 

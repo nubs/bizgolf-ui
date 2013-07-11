@@ -4,9 +4,29 @@
 <h2>Create a New Hole</h2>
 <form method="post" class="form-horizontal" action="/holes">
   <div class="control-group">
-    <label class="control-label" for="fileName">Identifier</label>
+    <label class="control-label" for="fileName">Specification</label>
     <div class="controls">
-      <input type="text" name="fileName" placeholder="Bizgolf Hole Identifier" />
+      <div class="span3">
+        <input type="text" name="fileName" placeholder="Bizgolf Hole Identifier" />
+      </div>
+      <div class="span1"><strong>OR</strong></div>
+      <div class="span3">
+        <input type="text" name="constantName" placeholder="Constant Name" />
+        <div>
+          <label for="constantValuesIsAFunction" class="checkbox">
+            <input type="checkbox" name="constantValuesIsAFunction" /> Constant Values Is A Function
+          </label>
+        </div>
+        <textarea name="constantValues" placeholder="Constant Values (Function or CSV)" class="input-xxlarge" rows="8"></textarea>
+        <input type="text" name="trim" placeholder="Trim" />
+        <div>
+          <label for="sampleIsAFunction" class="checkbox">
+            <input type="checkbox" name="sampleIsAFunction" /> Sample Is A Function
+          </label>
+        </div>
+        <input type="text" name="sampleArguments" placeholder="Sample Arguments" />
+        <textarea name="specification-sample" placeholder="Sample (Function or String)" class="input-xxlarge" rows="8"></textarea>
+      </div>
     </div>
   </div>
   <div class="control-group">

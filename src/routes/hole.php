@@ -101,13 +101,46 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             }
 
             $req = $app->request();
-            $hole = $holeModel['create']([
-                'fileName' => $req->post('fileName'),
+            $fileName = $req->post('fileName');
+            $fields = [
                 'title' => $req->post('title'),
                 'shortDescription' => $req->post('shortDescription'),
                 'description' => $req->post('description'),
                 'sample' => $req->post('sample'),
-            ]);
+            ];
+
+            if ($fileName) {
+                $fields['fileName'] = $fileName;
+            } else {
+                $specification = [
+                    'constantName' => $req->post('constantName') ?: null,
+                    'constantValues' => $req->post('constantValues'),
+                    'sample' => $req->post('specification-sample'),
+                    'trim' => $req->post('trim'),
+                ];
+
+                if ($req->post('constantValuesIsAFunction')) {
+                    $specification['constantValues'] = ['type' => 'function', 'body' => $specification['constantValues']];
+                } elseif(empty($specification['constantValues'])) {
+                    $specification['constantValues'] = ['type' => 'array', 'values' => []];
+                } else {
+                    $specification['constantValues'] = ['type' => 'array', 'values' => explode(',', $specification['constantValues'])];
+                }
+
+                if ($req->post('sampleIsAFunction')) {
+                    $specification['sample'] = [
+                        'type' => 'function',
+                        'arguments' => $req->post('sampleArguments'),
+                        'body' => $specification['sample'],
+                    ];
+                } else {
+                    $specification['sample'] = ['type' => 'string', 'value' => $specification['sample']];
+                }
+
+                $fields['specification'] = $specification;
+            }
+
+            $hole = $holeModel['create']($fields);
         } catch (Exception $e) {
             $app->flash('error', $e->getMessage());
             $app->redirect($app->urlFor('newHole'));
