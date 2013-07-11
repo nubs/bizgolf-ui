@@ -69,7 +69,11 @@ return function(MongoDB $db) {
         $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
         $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
         $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
+
+        $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
         $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
+        $trim = $hole['specification']['trim'];
+        $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 
         return $hole;
     };

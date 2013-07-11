@@ -103,7 +103,6 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $req = $app->request();
             $hole = $holeModel['create']([
                 'fileName' => $req->post('fileName'),
-                'trim' => $req->post('trim'),
                 'title' => $req->post('title'),
                 'shortDescription' => $req->post('shortDescription'),
                 'description' => $req->post('description'),
