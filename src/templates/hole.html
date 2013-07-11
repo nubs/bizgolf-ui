@@ -7,9 +7,9 @@
       <dl class="dl-horizontal">
         <dt>Description:</dt>
         <dd>{{ hole.description|e }}</dd>
-        {% if hole.constantName %}
+        {% if hole.specification.constantName %}
           <dt>Constant Name:</dt>
-          <dd>{{ hole.constantName|e }}</dd>
+          <dd>{{ hole.specification.constantName|e }}</dd>
         {% endif %}
         <dt>Trim:</dt>
         <dd>{{ hole.trim|e }}</dd>
