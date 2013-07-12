@@ -125,7 +125,7 @@ return function(MongoDB $db) {
         'findOne' => $findOne,
         'addSubmission' => function($id, array $user, $submission)  use($collection, $findOne) {
             $hole = $findOne($id);
-            $result = \Bizgolf\judge($hole['specification'], \Bizgolf\createImage('php-5.5', $submission));
+            $result = \Bizgolf\judge($hole['specification'], 'php-5.5', $submission);
             $result['_id'] = new MongoId();
             $result['user'] = $user;
 
@@ -141,7 +141,7 @@ return function(MongoDB $db) {
             foreach ($hole['submissions'] as $submission) {
                 $submissionFile = tempnam(sys_get_temp_dir(), 'revalidate');
                 file_put_contents($submissionFile, $submission['rawCode']);
-                $result = \Bizgolf\judge($hole['specification'], \Bizgolf\createImage('php-5.5', $submissionFile));
+                $result = \Bizgolf\judge($hole['specification'], 'php-5.5', $submissionFile);
                 if ($result['result'] !== $submission['result']) {
                     $submission['result'] = $result['result'];
                     $collection->update(
