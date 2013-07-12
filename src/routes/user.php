@@ -4,6 +4,15 @@ return function(\Slim\Slim $app, array $userModel, callable $loadAuth) {
         $user = null;
         try {
             $user = $userModel['findOne']($userId);
+            if (empty($app->config('codegolf.user')['isAdmin'])) {
+                $user['submissions'] = array_filter($user['submissions'], function($submission) {
+                    return $submission['hole']['hasStarted'];
+                });
+
+                $user['scoreboard'] = array_filter($user['scoreboard'], function($submission) {
+                    return $submission['hole']['hasStarted'];
+                });
+            }
         } catch (Exception $e) {
             $app->flash('error', $e->getMessage());
             $app->redirect($app->urlFor('home'));
