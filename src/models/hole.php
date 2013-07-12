@@ -93,6 +93,9 @@ return function(MongoDB $db) {
         $trim = $hole['specification']['trim'];
         $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 
+        $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
+        $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
+
         return $hole;
     };
 

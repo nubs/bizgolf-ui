@@ -15,6 +15,14 @@
         <dd>{{ hole.trim|e }}</dd>
         <dt>Sample:</dt>
         <dd><pre>{{ hole.sample|e }}</pre></dd>
+        {% if hole.startDate %}
+          <dt>Start Date:</dt>
+          <dd>{{ hole.startDateFormatted|e }}</dd>
+        {% endif %}
+        {% if hole.endDate %}
+          <dt>End Date:</dt>
+          <dd>{{ hole.endDateFormatted|e }}</dd>
+        {% endif %}
         {% if user.isAdmin %}
           <dt>Revalidate:</dt>
           <dd>
