@@ -107,6 +107,8 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
                 'shortDescription' => $req->post('shortDescription'),
                 'description' => $req->post('description'),
                 'sample' => $req->post('sample'),
+                'startDate' => $req->post('startDate') ?: null,
+                'endDate' => $req->post('endDate') ?: null,
             ];
 
             if ($fileName) {
