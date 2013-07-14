@@ -131,6 +131,8 @@ return function(MongoDB $db) {
 
             $code = file_get_contents($submission);
             $result['code'] = utf8_encode($code);
+            $result['output'] = utf8_encode($result['output']);
+            $result['stderr'] = utf8_encode($result['stderr']);
             $result['length'] = strlen($code);
 
             $collection->update(['_id' => new MongoId($id)], ['$push' => ['submissions' => $result]]);
