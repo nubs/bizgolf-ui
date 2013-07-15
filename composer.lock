@@ -62,15 +62,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "c5a6a4619499fa848f1a2361deef6c868eb75e06"
+                "reference": "e027d92096fd4cb0a426f7e4537900dc4dd0b47f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/c5a6a4619499fa848f1a2361deef6c868eb75e06",
-                "reference": "c5a6a4619499fa848f1a2361deef6c868eb75e06",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/e027d92096fd4cb0a426f7e4537900dc4dd0b47f",
+                "reference": "e027d92096fd4cb0a426f7e4537900dc4dd0b47f",
                 "shasum": ""
             },
             "require": {
+                "nubs/hiatus": "~1.1",
                 "php": ">=5.4.0"
             },
             "bin": [
@@ -100,7 +101,50 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-07-14 14:27:14"
+            "time": "2013-07-15 02:35:11"
+        },
+        {
+            "name": "nubs/hiatus",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nubs/hiatus.git",
+                "reference": "v1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nubs/hiatus/zipball/v1.1.0",
+                "reference": "v1.1.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/hiatus.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Spencer Rinehart",
+                    "email": "anubis@overthemonkey.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A library for executing shell commands with an optional timeout.",
+            "keywords": [
+                "exec",
+                "execution",
+                "shell",
+                "timeout"
+            ],
+            "time": "2013-07-15 02:24:17"
         },
         {
             "name": "slim/extras",
