@@ -11,12 +11,12 @@
     <div class="page-header">
       <div class="pull-right">
         {% if user %}
-          Welcome, <a href="/users/{{ user._id|e('url') }}">{{ user.username|e }}</a>
+          Welcome, <a href="{{ urlFor('user', {"userId": user._id}) }}">{{ user.username|e }}</a>
         {% else %}
-          <a href="/login">Login</a> / <a href="/register">Register</a>
+          <a href="{{ urlFor('login') }}">Login</a> / <a href="{{ urlFor('register') }}">Register</a>
         {% endif %}
       </div>
-      <h1><a href="/">Bizgolf <small>What's your par?</small></a></h1>
+      <h1><a href="{{ urlFor('home') }}">Bizgolf <small>What's your par?</small></a></h1>
     </div>
     {% if flash.error %}
       <div class="alert alert-error">{{ flash.error }}</div>

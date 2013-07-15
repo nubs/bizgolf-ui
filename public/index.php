@@ -13,6 +13,9 @@ $app = new \Slim\Slim([
 ]);
 $app->add(new \Slim\Middleware\SessionCookie(['secret' => $cookieSecretKey, 'name' => 'session']));
 
+$view = $app->view();
+$view->parserExtensions = [new \Slim\Views\TwigExtension()];
+
 $models = require "{$appDir}/src/models.php";
 $models = $models($mongoUrl);
 

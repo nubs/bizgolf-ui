@@ -5,12 +5,12 @@
     <h2>Holes</h2>
     <ul class="unstyled">
     {% for hole in holes %}
-      <li><a href="/holes/{{ hole._id|e('url') }}">{{ hole.title|e }}</a> - <small>{{ hole.shortDescription|e }}</small></li>
+    <li><a href="{{ urlFor('hole', {"holeId": hole._id}) }}">{{ hole.title|e }}</a> - <small>{{ hole.shortDescription|e }}</small></li>
     {% endfor %}
     </ul>
     {% if user.isAdmin %}
       <hr />
-      <a href="/holes/new">Create a new hole</a>
+      <a href="{{ urlFor('newHole') }}">Create a new hole</a>
     {% endif %}
   </div>
 
@@ -24,7 +24,7 @@
         </tr>
         {% for user in users %}
           <tr>
-            <td><a href="/users/{{ user._id|e('url') }}">{{ user.username|e }}</a></td>
+            <td><a href="{{ urlFor('user', {"userId": user._id}) }}">{{ user.username|e }}</a></td>
             <td>{{ user.stats.score|e }}</td>
           </tr>
         {% endfor %}
@@ -41,11 +41,11 @@
         </tr>
         {% for submission in submissions %}
           <tr class="{% if submission.result %}success{% else %}error{% endif %}">
-            <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
-            <td><a href="/users/{{ submission.user._id|e('url') }}">{{ submission.user.username|e }}</a></td>
+            <td><a href="{{ urlFor('hole', {"holeId": submission.hole._id}) }}">{{ submission.hole.title|e }}</a></td>
+            <td><a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></td>
             <td>
               {% if submission.user._id == user._id or user.isAdmin %}
-                <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
+                <a href="{{ urlFor('submission', {"holeId": submission.hole._id, "submissionId": submission._id}) }}">
               {% endif %}
               {{ submission.length|e }}
               {% if submission.user._id == user._id or user.isAdmin %}

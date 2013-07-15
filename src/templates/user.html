@@ -13,10 +13,10 @@
         </tr>
         {% for submission in viewUser.scoreboard %}
           <tr>
-            <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
+            <td><a href="{{ urlFor('hole', {"holeId": submission.hole._id}) }}">{{ submission.hole.title|e }}</a></td>
             <td>
               {% if submission.submission.user._id == user._id or user.isAdmin %}
-                <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission.submission._id|e('url') }}">
+                <a href="{{ urlFor('submission', {"holeId": submission.hole._id, "submissionId": submission.submission._id}) }}">
               {% endif %}
                 {{ submission.submission.length|e }}
               {% if submission.submission.user._id == user._id or user.isAdmin %}
@@ -43,10 +43,10 @@
         </tr>
         {% for submission in viewUser.submissions %}
           <tr class="{% if submission.result %}success{% else %}error{% endif %}">
-            <td><a href="/holes/{{ submission.hole._id|e('url') }}">{{ submission.hole.title|e }}</a></td>
+            <td><a href="{{ urlFor('hole', {"holeId": submission.hole._id}) }}">{{ submission.hole.title|e }}</a></td>
             <td>
               {% if submission.user._id == user._id or user.isAdmin %}
-                <a href="/holes/{{ submission.hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
+                <a {{ urlFor('submission', {"holeId": submission.hole._id, "submissionId": submission._id}) }}">
               {% endif %}
                 {{ submission.length|e }}
               {% if submission.user._id == user._id or user.isAdmin %}

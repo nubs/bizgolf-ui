@@ -50,7 +50,7 @@
         </tr>
         {% for submission in hole.scoreboard %}
           <tr>
-            <td><a href="/users/{{ submission.user._id|e('url') }}">{{ submission.user.username|e }}</a></td>
+            <td><a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></td>
             <td>{{ submission.length|e }}</td>
             <td>{{ submission.score|e }}</td>
           </tr>
@@ -66,10 +66,10 @@
         </tr>
       {% for submission in hole.submissions %}
         <tr class="{% if submission.result %}success{% else %}error{% endif %}">
-          <td><a href="/users/{{ submission.user._id|e('url') }}">{{ submission.user.username|e }}</a></td>
+          <td><a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></td>
           <td>
             {% if submission.user._id == user._id or user.isAdmin %}
-              <a href="/holes/{{ hole._id|e('url') }}/submissions/{{ submission._id|e('url') }}">
+              <a href="{{ urlFor('submission', {"holeId": hole._id, "submissionId": submission._id}) }}">
             {% endif %}
             {{ submission.length|e }}
             {% if submission.user._id == user._id or user.isAdmin %}
