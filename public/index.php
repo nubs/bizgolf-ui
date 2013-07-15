@@ -8,7 +8,7 @@ $cookieSecretKey = getenv('COOKIE_SECRET_KEY') ?: die('Missing COOKIE_SECRET_KEY
 $app = new \Slim\Slim([
     'cookies.lifetime' => '1 month',
     'cookies.secret_key' => $cookieSecretKey,
-    'view' => new \Slim\Extras\Views\Twig(),
+    'view' => new \Slim\Views\Twig(),
     'templates.path' => "{$appDir}/src/templates",
 ]);
 $app->add(new \Slim\Middleware\SessionCookie(['secret' => $cookieSecretKey, 'name' => 'session']));
