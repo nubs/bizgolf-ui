@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "e027d92096fd4cb0a426f7e4537900dc4dd0b47f"
+                "reference": "4a27907965ca82be6192fa381a5aa8f2b57bdd36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/e027d92096fd4cb0a426f7e4537900dc4dd0b47f",
-                "reference": "e027d92096fd4cb0a426f7e4537900dc4dd0b47f",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/4a27907965ca82be6192fa381a5aa8f2b57bdd36",
+                "reference": "4a27907965ca82be6192fa381a5aa8f2b57bdd36",
                 "shasum": ""
             },
             "require": {
@@ -101,20 +101,20 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-07-15 02:35:11"
+            "time": "2013-07-16 15:45:28"
         },
         {
             "name": "nubs/hiatus",
-            "version": "v1.1.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/hiatus.git",
-                "reference": "v1.1.0"
+                "reference": "1.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/hiatus/zipball/v1.1.0",
-                "reference": "v1.1.0",
+                "url": "https://api.github.com/repos/nubs/hiatus/zipball/1.2.1",
+                "reference": "1.2.1",
                 "shasum": ""
             },
             "require": {
@@ -144,7 +144,7 @@
                 "shell",
                 "timeout"
             ],
-            "time": "2013-07-15 02:24:17"
+            "time": "2013-07-16 15:22:11"
         },
         {
             "name": "slim/slim",
