@@ -11,6 +11,10 @@
           <dt>Constant Name:</dt>
           <dd>{{ hole.specification.constantName|e }}</dd>
         {% endif %}
+        {% if hole.disabledFunctions %}
+          <dt>Disabled Functions:</dt>
+          <dd>{{ hole.disabledFunctions|e }}</dd>
+        {% endif %}
         <dt>Trim:</dt>
         <dd>{{ hole.trim|e }}</dd>
         <dt>Sample:</dt>
