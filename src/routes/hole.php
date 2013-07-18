@@ -107,6 +107,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
                 'shortDescription' => $req->post('shortDescription'),
                 'description' => $req->post('description'),
                 'sample' => $req->post('sample'),
+                'disabledFunctions' => $req->post('disabledFunctions') ?: null,
                 'startDate' => $req->post('startDate') ?: null,
                 'endDate' => $req->post('endDate') ?: null,
             ];
@@ -116,6 +117,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             } else {
                 $specification = [
                     'constantName' => $req->post('constantName') ?: null,
+                    'disabledFunctionality' => explode(',', $req->post('disabledFunctionality') ?: ''),
                     'constantValues' => $req->post('constantValues'),
                     'sample' => $req->post('specification-sample'),
                     'trim' => $req->post('trim'),
