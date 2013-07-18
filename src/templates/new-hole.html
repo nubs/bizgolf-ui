@@ -7,7 +7,7 @@
     <label class="control-label" for="fileName">Specification</label>
     <div class="controls">
       <div class="span3">
-        <input type="text" name="fileName" placeholder="Bizgolf Hole Identifier" />
+        <input type="text" name="fileName" id="fileName" placeholder="Bizgolf Hole Identifier" />
       </div>
       <div class="span1"><strong>OR</strong></div>
       <div class="span3">
@@ -15,14 +15,14 @@
         <input type="text" name="disabledFunctionality" placeholder="Disabled Functionality (CSV)" />
         <div>
           <label for="constantValuesIsAFunction" class="checkbox">
-            <input type="checkbox" name="constantValuesIsAFunction" /> Constant Values Is A Function
+            <input type="checkbox" name="constantValuesIsAFunction" id="constantValuesIsAFunction" /> Constant Values Is A Function
           </label>
         </div>
         <textarea name="constantValues" placeholder="Constant Values (Function or CSV)" class="input-xxlarge" rows="8"></textarea>
         <input type="text" name="trim" placeholder="Trim" />
         <div>
           <label for="sampleIsAFunction" class="checkbox">
-            <input type="checkbox" name="sampleIsAFunction" /> Sample Is A Function
+            <input type="checkbox" name="sampleIsAFunction" id="sampleIsAFunction" /> Sample Is A Function
           </label>
         </div>
         <input type="text" name="sampleArguments" placeholder="Sample Arguments" />
@@ -33,43 +33,43 @@
   <div class="control-group">
     <label class="control-label" for="title">Title</label>
     <div class="controls">
-      <input type="text" name="title" placeholder="Title" />
+      <input type="text" name="title" id="title" placeholder="Title" />
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="shortDescription">Short Description</label>
     <div class="controls">
-      <input type="text" name="shortDescription" placeholder="Short Description" />
+      <input type="text" name="shortDescription" id="shortDescription" placeholder="Short Description" />
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="description">Description</label>
     <div class="controls">
-      <textarea name="description" placeholder="Description" class="input-xxlarge" rows="8"></textarea>
+      <textarea name="description" id="description" placeholder="Description" class="input-xxlarge" rows="8"></textarea>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="disabledFunctions">Disabled Functions</label>
     <div class="controls">
-      <input type="text" name="disabledFunctions" placeholder="Disabled Functions" />
+      <input type="text" name="disabledFunctions" id="disabledFunctions" placeholder="Disabled Functions" />
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="sample">Sample</label>
     <div class="controls">
-      <textarea name="sample" placeholder="Sample Submission" class="input-xxlarge" rows="8"></textarea>
+      <textarea name="sample" id="sample" placeholder="Sample Submission" class="input-xxlarge" rows="8"></textarea>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="startDate">Start Date</label>
     <div class="controls">
-      <input type="text" name="startDate" placeholder="Start Date (UNIX timestamp)" />
+      <input type="text" name="startDate" id="startDate" placeholder="Start Date (UNIX timestamp)" />
     </div>
   </div>
   <div class="control-group">
     <label class="control-label" for="endDate">End Date</label>
     <div class="controls">
-      <input type="text" name="endDate" placeholder="End Date (UNIX timestamp)" />
+      <input type="text" name="endDate" id="endDate" placeholder="End Date (UNIX timestamp)" />
     </div>
   </div>
   <div class="control-group">
