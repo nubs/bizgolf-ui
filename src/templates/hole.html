@@ -72,7 +72,7 @@
         <tr class="{% if submission.result %}success{% else %}error{% endif %}">
           <td><a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></td>
           <td>
-            {% if submission.user._id == user._id or user.isAdmin %}
+            {% if submission.user._id == user._id or user.isAdmin or hole.hasEnded %}
               <a href="{{ urlFor('submission', {"holeId": hole._id, "submissionId": submission._id}) }}">
             {% endif %}
             {{ submission.length|e }}

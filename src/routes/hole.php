@@ -44,7 +44,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         $app->redirect($app->urlFor('hole', ['holeId' => $holeId]));
     });
 
-    $app->get('/holes/:holeId/submissions/:submissionId', $loadAuth, $auth, function($holeId, $submissionId) use($app, $holeModel) {
+    $app->get('/holes/:holeId/submissions/:submissionId', $loadAuth, function($holeId, $submissionId) use($app, $holeModel, $auth) {
         $hole = null;
         try {
             $hole = $holeModel['findOne']($holeId);
@@ -53,12 +53,16 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('home'));
         }
 
+        if (!$hole['hasEnded']) {
+            $auth();
+        }
+
         $user = $app->config('codegolf.user');
         $submission = null;
         foreach ($hole['submissions'] as $holeSubmission) {
             if (
                 (string)$holeSubmission['_id'] === $submissionId &&
-                ((string)$holeSubmission['user']['_id'] === (string)$user['_id'] || !empty($user['isAdmin']))
+                ((string)$holeSubmission['user']['_id'] === (string)$user['_id'] || !empty($user['isAdmin']) || $hole['hasEnded'])
             ) {
                 $submission = $holeSubmission;
                 break;
