@@ -44,11 +44,11 @@
             <td><a href="{{ urlFor('hole', {"holeId": submission.hole._id}) }}">{{ submission.hole.title|e }}</a></td>
             <td><a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></td>
             <td>
-              {% if submission.user._id == user._id or user.isAdmin %}
+              {% if submission.user._id == user._id or user.isAdmin or submission.hole.hasEnded %}
                 <a href="{{ urlFor('submission', {"holeId": submission.hole._id, "submissionId": submission._id}) }}">
               {% endif %}
               {{ submission.length|e }}
-              {% if submission.user._id == user._id or user.isAdmin %}
+              {% if submission.user._id == user._id or user.isAdmin or submission.hole.hasEnded %}
                 </a>
               {% endif %}
             </td>
