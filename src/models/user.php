@@ -27,7 +27,7 @@ return function(MongoDB $db, array $holeModel) {
         }
 
         usort($user['submissions'], function($a, $b) {
-            return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
+            return $b['timestamp'] - $a['timestamp'];
         });
 
         return $user;

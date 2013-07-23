@@ -38,7 +38,7 @@ return function(MongoDB $db) {
         }
 
         usort($result, function($a, $b) {
-            return $a['length'] - $b['length'] ?: $a['_id']->getTimestamp() - $b['_id']->getTimestamp();
+            return $a['length'] - $b['length'] ?: $a['timestamp'] - $b['timestamp'];
         });
 
         return $result;
@@ -52,6 +52,7 @@ return function(MongoDB $db) {
         $shortest = $shortestSubmission($hole['submissions']);
         foreach ($hole['submissions'] as &$submission) {
             $submission['rawCode'] = utf8_decode($submission['code']);
+            $submission['timestamp'] = $submission['_id']->getTimestamp();
 
             if ($submission['result']) {
                 $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
@@ -61,7 +62,7 @@ return function(MongoDB $db) {
         }
 
         usort($hole['submissions'], function($a, $b) {
-            return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
+            return $b['timestamp'] - $a['timestamp'];
         });
 
         $hole['scoreboard'] = $bestForEachUser($hole['submissions']);

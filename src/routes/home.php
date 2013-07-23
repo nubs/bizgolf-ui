@@ -17,7 +17,7 @@ return function(\Slim\Slim $app, array $holeModel, array $userModel, callable $l
         }
 
         usort($submissions, function($a, $b) {
-            return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
+            return $b['timestamp'] - $a['timestamp'];
         });
 
         $submissions = array_slice($submissions, 0, 20);
