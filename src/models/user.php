@@ -1,12 +1,12 @@
 <?php
-return function(MongoDB $db, array $holeModel) {
+return function(MongoDB $db) {
     $collection = $db->users;
 
-    $loadScoreboard = function($user) use($holeModel) {
+    $loadScoreboard = function($user, $holes) {
         $user['submissions'] = [];
         $user['scoreboard'] = [];
         $user['stats'] = ['score' => 0];
-        foreach ($holeModel['find']() as $hole) {
+        foreach ($holes as $hole) {
             $isThisUsersSubmission = function($submission) use($user) {
                 return $submission['user']['_id'] == $user['_id'];
             };
@@ -34,10 +34,10 @@ return function(MongoDB $db, array $holeModel) {
     };
 
     return [
-        'find' => function(array $conditions = []) use($collection, $loadScoreboard) {
+        'find' => function(array $conditions = [], array $holes) use($collection, $loadScoreboard) {
             $users = iterator_to_array($collection->find($conditions));
             foreach ($users as &$user) {
-                $user = $loadScoreboard($user);
+                $user = $loadScoreboard($user, $holes);
             }
 
             usort($users, function($a, $b) {
@@ -49,7 +49,7 @@ return function(MongoDB $db, array $holeModel) {
         'auth' => function(array $conditions = []) use($collection) {
             return $collection->findOne($conditions);
         },
-        'findOne' => function($id) use($collection, $loadScoreboard) {
+        'findOne' => function($id, array $holes) use($collection, $loadScoreboard) {
             $user = null;
             try {
                 $user = $collection->findOne(['_id' => new MongoId($id)]);
@@ -60,7 +60,7 @@ return function(MongoDB $db, array $holeModel) {
                 throw new Exception("User '{$id}' does not exist.");
             }
 
-            return $loadScoreboard($user);
+            return $loadScoreboard($user, $holes);
         },
         'create' => function(array $fields) use($collection) {
             try {

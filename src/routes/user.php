@@ -1,9 +1,9 @@
 <?php
-return function(\Slim\Slim $app, array $userModel, callable $loadAuth) {
-    $app->get('/users/:userId', $loadAuth, function($userId) use($app, $userModel) {
+return function(\Slim\Slim $app, array $userModel, array $holeModel, callable $loadAuth) {
+    $app->get('/users/:userId', $loadAuth, function($userId) use($app, $userModel, $holeModel) {
         $user = null;
         try {
-            $user = $userModel['findOne']($userId);
+            $user = $userModel['findOne']($userId, $holeModel['find']());
             if (empty($app->config('codegolf.user')['isAdmin'])) {
                 $user['submissions'] = array_filter($user['submissions'], function($submission) {
                     return $submission['hole']['hasStarted'];

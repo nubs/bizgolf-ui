@@ -24,7 +24,7 @@ return function(\Slim\Slim $app, array $holeModel, array $userModel, callable $l
 
         $app->render(
             'home.html',
-            ['holes' => $holes, 'users' => $userModel['find'](), 'user' => $app->config('codegolf.user'), 'submissions' => $submissions]
+            ['holes' => $holes, 'users' => $userModel['find']([], $holes), 'user' => $app->config('codegolf.user'), 'submissions' => $submissions]
         );
     })->name('home');
 };

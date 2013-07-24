@@ -6,6 +6,5 @@ return function($mongoUrl) {
     $hole = require 'models/hole.php';
     $user = require 'models/user.php';
 
-    $hole = $hole($db);
-    return ['user' => $user($db, $hole), 'hole' => $hole];
+    return ['user' => $user($db), 'hole' => $hole($db)];
 };
