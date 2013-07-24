@@ -101,7 +101,7 @@ return function(MongoDB $db) {
         return $hole;
     };
 
-    $findOne = function($id) use($collection, $fleshOutHole) {
+    $findOne = function($id, array $conditions = []) use($collection, $fleshOutHole) {
         $hole = null;
         try {
             $hole = $collection->findOne(['_id' => new MongoId($id)]);
@@ -112,21 +112,38 @@ return function(MongoDB $db) {
             throw new Exception("Hole '{$id}' does not exist.");
         }
 
-        return $fleshOutHole($hole);
+        $hole = $fleshOutHole($hole);
+
+        if (array_key_exists('visibleBy', $conditions) && empty($conditions['visibleBy']['isAdmin']) && !$hole['hasStarted']) {
+            throw new Exception('Hole has not started.');
+        }
+
+        if (array_key_exists('canSubmit', $conditions) && empty($conditions['canSubmit']['isAdmin']) && !$hole['isOpen']) {
+            throw new Exception('Hole is not active.');
+        }
     };
 
     return [
         'find' => function(array $conditions = []) use($collection, $fleshOutHole) {
-            $holes = iterator_to_array($collection->find($conditions));
-            foreach ($holes as &$hole) {
+            $visibleBy = null;
+            if (array_key_exists('visibleBy', $conditions)) {
+                $visibleBy = $conditions['visibleBy'];
+                unset($conditions['visibleBy']);
+            }
+
+            $holes = [];
+            foreach (iterator_to_array($collection->find($conditions)) as $hole) {
                 $hole = $fleshOutHole($hole);
+                if (!empty($visibleBy['isAdmin']) || $hole['hasStarted']) {
+                    $holes[] = $hole;
+                }
             }
 
             return $holes;
         },
         'findOne' => $findOne,
         'addSubmission' => function($id, array $user, $submission)  use($collection, $findOne) {
-            $hole = $findOne($id);
+            $hole = $findOne($id, ['canSubmit' => $user]);
             $result = \Bizgolf\judge($hole['specification'], 'php-5.5', $submission);
             $result['_id'] = new MongoId();
             $result['user'] = $user;
