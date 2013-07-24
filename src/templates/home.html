@@ -17,7 +17,7 @@
   </div>
 
   <div class="row">
-    <div class="span5">
+    <div class="span4">
       <h2>Scoreboard</h2>
       <table class="table table-hover">
         <tr>
@@ -32,7 +32,7 @@
         {% endfor %}
       </table>
     </div>
-    <div class="span7">
+    <div class="span8">
       <h2>Recent Scores</h2>
       <table class="table table-condensed table-hover">
         <tr>
@@ -40,6 +40,7 @@
           <th>Username</th>
           <th>Length</th>
           <th>Score</th>
+          <th>Date</th>
         </tr>
         {% for submission in submissions %}
           <tr class="{% if submission.result %}success{% else %}error{% endif %}">
@@ -55,6 +56,7 @@
               {% endif %}
             </td>
             <td>{{ submission.score|e }}</td>
+            <td>{{ submission.timestampFormatted|e }}</td>
           </tr>
         {% endfor %}
       </table>

@@ -53,6 +53,7 @@ return function(MongoDB $db) {
         foreach ($hole['submissions'] as &$submission) {
             $submission['rawCode'] = utf8_decode($submission['code']);
             $submission['timestamp'] = $submission['_id']->getTimestamp();
+            $submission['timestampFormatted'] = date(DATE_RFC2822, $submission['timestamp']);
 
             if ($submission['result']) {
                 $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
