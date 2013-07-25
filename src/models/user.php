@@ -13,8 +13,8 @@ return function(MongoDB $db) {
 
             $user['submissions'] = array_merge($user['submissions'], array_filter($hole['submissions'], $isThisUsersSubmission));
 
-            $userScoreboard = array_shift(array_filter($hole['scoreboard'], $isThisUsersSubmission));
-            $userScoreboard = $userScoreboard ?: ['length' => null, 'score' => 0, 'hole' => $hole];
+            $userScoreboard = array_values(array_filter($hole['scoreboard'], $isThisUsersSubmission));
+            $userScoreboard = empty($userScoreboard) ? ['length' => null, 'score' => 0, 'hole' => $hole] : $userScoreboard[0];
             $user['scoreboard'][] = $userScoreboard;
             $user['stats']['score'] += $userScoreboard['score'];
         }
