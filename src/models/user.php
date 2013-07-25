@@ -11,19 +11,12 @@ return function(MongoDB $db) {
                 return $submission['user']['_id'] == $user['_id'];
             };
 
-            foreach (array_values(array_filter($hole['submissions'], $isThisUsersSubmission)) as $submission) {
-                $submission['hole'] = $hole;
-                $user['submissions'][] = $submission;
-            }
+            $user['submissions'] = array_merge($user['submissions'], array_filter($hole['submissions'], $isThisUsersSubmission));
 
-            $userScoreboard = array_values(array_filter($hole['scoreboard'], $isThisUsersSubmission));
-
-            if (empty($userScoreboard)) {
-                $user['scoreboard'][] = ['submission' => ['length' => null, 'score' => 0], 'hole' => $hole];
-            } else {
-                $user['scoreboard'][] = ['submission' => $userScoreboard[0], 'hole' => $hole];
-                $user['stats']['score'] += $userScoreboard[0]['score'];
-            }
+            $userScoreboard = array_shift(array_filter($hole['scoreboard'], $isThisUsersSubmission));
+            $userScoreboard = $userScoreboard ?: ['length' => null, 'score' => 0, 'hole' => $hole];
+            $user['scoreboard'][] = $userScoreboard;
+            $user['stats']['score'] += $userScoreboard['score'];
         }
 
         usort($user['submissions'], function($a, $b) {

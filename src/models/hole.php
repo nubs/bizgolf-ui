@@ -51,6 +51,7 @@ return function(MongoDB $db) {
 
         $shortest = $shortestSubmission($hole['submissions']);
         foreach ($hole['submissions'] as &$submission) {
+            $submission['hole'] = $hole;
             $submission['rawCode'] = utf8_decode($submission['code']);
             $submission['timestamp'] = $submission['_id']->getTimestamp();
             $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
