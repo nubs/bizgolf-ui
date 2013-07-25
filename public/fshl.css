@@ -19,7 +19,7 @@
 /* Copyright (c) 2011-2012 Jaroslav Hanslík */
 
 /* Common */
-.xlang {color: #ff0000; font-weight: bold;}
+.xlang {font-weight: bold;}
 .line {color: #000000; background-color: #ffffff;}
 
 /* CSS */
@@ -74,12 +74,12 @@
 .neon-ref {color: #884433;}
 
 /* PHP */
-.php-keyword1 {color: #dd2244; font-weight: bold;}
-.php-keyword2 {color: #dd2244;}
-.php-var {color: #ffaa00; font-weight: bold;}
-.php-num {color: #ff0000;}
-.php-quote {color: #884433; font-weight: bold;}
-.php-comment {color: #999999; background-color: #ffffee;}
+.php-keyword1 {font-weight: bold;}
+.php-keyword2 {color: #008080;}
+.php-var {color: #a00000;}
+.php-num {color: #a00000;}
+.php-quote {color: #008080; font-weight: bold; background-color: #f0f8f8;}
+.php-comment {color: #999999;}
 
 /* Python */
 .py-keyword1 {color: #0033cc; font-weight: bold;}
