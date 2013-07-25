@@ -52,10 +52,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         $user = $app->config('codegolf.user');
         $submission = null;
         foreach ($hole['submissions'] as $holeSubmission) {
-            if (
-                (string)$holeSubmission['_id'] === $submissionId &&
-                ((string)$holeSubmission['user']['_id'] === (string)$user['_id'] || !empty($user['isAdmin']) || $hole['hasEnded'])
-            ) {
+            if ((string)$holeSubmission['_id'] === $submissionId && $holeSubmission['viewableByUser']) {
                 $submission = $holeSubmission;
                 break;
             }

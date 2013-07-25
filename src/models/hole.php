@@ -44,7 +44,11 @@ return function(MongoDB $db) {
         return $result;
     };
 
-    $fleshOutHole = function($hole) use ($collection, $bestForEachUser, $shortestSubmission) {
+    $fleshOutHole = function($hole, array $conditions = []) use ($collection, $bestForEachUser, $shortestSubmission) {
+        $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
+        $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
+        $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
+
         if (!array_key_exists('submissions', $hole)) {
             $hole['submissions'] = [];
         }
@@ -61,6 +65,13 @@ return function(MongoDB $db) {
             } else {
                 $submission['score'] = 0;
             }
+
+            $submission['viewableByUser'] = array_key_exists('visibleBy', $conditions) &&
+                (
+                    !empty($conditions['visibleBy']['isAdmin']) ||
+                    $hole['hasEnded'] ||
+                    (!empty($conditions['visibleBy']['_id']) && $conditions['visibleBy']['_id'] == $submission['user']['_id'])
+                );
         }
 
         usort($hole['submissions'], function($a, $b) {
@@ -68,10 +79,6 @@ return function(MongoDB $db) {
         });
 
         $hole['scoreboard'] = $bestForEachUser($hole['submissions']);
-
-        $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
-        $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
-        $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
 
         $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
         if (empty($hole['fileName'])) {
@@ -115,7 +122,7 @@ return function(MongoDB $db) {
             throw new Exception("Hole '{$id}' does not exist.");
         }
 
-        $hole = $fleshOutHole($hole);
+        $hole = $fleshOutHole($hole, $conditions);
 
         if (array_key_exists('visibleBy', $conditions) && empty($conditions['visibleBy']['isAdmin']) && !$hole['hasStarted']) {
             throw new Exception('Hole has not started.');
@@ -138,7 +145,7 @@ return function(MongoDB $db) {
 
             $holes = [];
             foreach (iterator_to_array($collection->find($conditions)) as $hole) {
-                $hole = $fleshOutHole($hole);
+                $hole = $fleshOutHole($hole, ['visibleBy' => $visibleBy]);
                 if (!empty($visibleBy['isAdmin']) || $hole['hasStarted']) {
                     $holes[] = $hole;
                 }
