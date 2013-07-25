@@ -2,7 +2,7 @@
 {% block title %}{{ hole.title|e }}{% endblock %}
 {% block content %}
   <div class="row">
-    <div class="span8">
+    <div class="span7">
       <h2>{{ hole.title|e }}</h2>
       <dl class="dl-horizontal">
         <dt>Description:</dt>
@@ -44,7 +44,7 @@
         </form>
       {% endif %}
     </div>
-    <div class="span4">
+    <div class="span5">
       <h3>Scoreboard</h3>
       <table class="table table-condensed table-hover">
         <tr>
@@ -75,6 +75,7 @@
           <th>Username</th>
           <th>Length</th>
           <th>Score</th>
+          <th>Date</th>
         </tr>
       {% for submission in hole.submissions %}
         <tr class="{% if submission.result %}success{% else %}error{% endif %}">
@@ -89,6 +90,7 @@
             {% endif %}
           </td>
           <td>{{ submission.score|e }}</td>
+          <td>{{ submission.timestampFormatted|e }}</td>
         </tr>
       {% endfor %}
     </table>

@@ -40,6 +40,7 @@
           <th>Hole</th>
           <th>Length</th>
           <th>Score</th>
+          <th>Date</th>
         </tr>
         {% for submission in viewUser.submissions %}
           <tr class="{% if submission.result %}success{% else %}error{% endif %}">
@@ -54,6 +55,7 @@
               {% endif %}
             </td>
             <td>{{ submission.score|e }}</td>
+            <td>{{ submission.timestampFormatted|e }}</td>
           </tr>
         {% endfor %}
       </table>
