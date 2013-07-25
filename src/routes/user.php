@@ -12,8 +12,8 @@ return function(\Slim\Slim $app, array $userModel, array $holeModel, callable $l
         $app->render('user.html', ['user' => $app->config('codegolf.user'), 'viewUser' => $user]);
     })->name('user');
 
-    $app->get('/login', function() use($app) {
-        $app->render('login.html');
+    $app->get('/login', $loadAuth, function() use($app) {
+        $app->render('login.html', ['user' => $app->config('codegolf.user')]);
     })->name('login');
 
     $app->post('/login', function() use($app, $userModel) {
@@ -29,8 +29,8 @@ return function(\Slim\Slim $app, array $userModel, array $holeModel, callable $l
         $app->redirect($app->urlFor('home'));
     });
 
-    $app->get('/register', function() use($app) {
-        $app->render('register.html');
+    $app->get('/register', $loadAuth, function() use($app) {
+        $app->render('register.html', ['user' => $app->config('codegolf.user')]);
     })->name('register');
 
     $app->post('/register', function() use($app, $userModel) {
