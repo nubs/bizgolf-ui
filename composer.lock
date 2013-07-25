@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "52b8dcf7147e7aa46769166e39dc5464",
+    "hash": "c534e4081993ad3b387fcacb8783fcbc",
     "packages": [
         {
             "name": "cogpowered/finediff",
@@ -109,6 +109,48 @@
                 "markdown"
             ],
             "time": "2012-01-15 19:36:37"
+        },
+        {
+            "name": "kukulich/fshl",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kukulich/fshl",
+                "reference": "2.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/kukulich/fshl/zipball/2.1.0",
+                "reference": "2.1.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FSHL": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Jaroslav Hanslík",
+                    "homepage": "https://github.com/kukulich"
+                }
+            ],
+            "description": "FSHL is a free, open source, universal, fast syntax highlighter written in PHP.",
+            "homepage": "http://fshl.kukulich.cz/",
+            "keywords": [
+                "highlight",
+                "library",
+                "syntax"
+            ],
+            "time": "2012-09-08 12:00:07"
         },
         {
             "name": "nesbot/carbon",
