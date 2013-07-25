@@ -21,11 +21,13 @@
       <h2>Scoreboard</h2>
       <table class="table table-hover">
         <tr>
+          <th>#</th>
           <th>Username</th>
           <th>Score</th>
         </tr>
-        {% for user in users %}
+        {% for i, user in users %}
           <tr>
+            <td>{{ i|e + 1 }}</td>
             <td><a href="{{ urlFor('user', {"userId": user._id}) }}">{{ user.username|e }}</a></td>
             <td>{{ user.stats.score|e }}</td>
           </tr>

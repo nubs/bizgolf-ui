@@ -48,12 +48,14 @@
       <h3>Scoreboard</h3>
       <table class="table table-condensed table-hover">
         <tr>
+          <th>#</th>
           <th>Username</th>
           <th>Length</th>
           <th>Score</th>
         </tr>
-        {% for submission in hole.scoreboard %}
+        {% for i, submission in hole.scoreboard %}
           <tr>
+            <td>{{ i|e + 1 }}</td>
             <td><a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></td>
             <td>
               {% if submission.user._id == user._id or user.isAdmin or hole.hasEnded %}
