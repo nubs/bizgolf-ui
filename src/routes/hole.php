@@ -70,6 +70,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $submission['diff'] = $diff->render($submission['output'], $submission['sample']);
         }
 
+        $submission['code'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($submission['code']);
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
 
