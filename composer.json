@@ -17,6 +17,7 @@
         "slim/slim": "~2.2",
         "slim/views": "~0.1.0",
         "twig/twig": "~1.13",
-        "cogpowered/finediff": "~0.0.1"
+        "cogpowered/finediff": "~0.0.1",
+        "dflydev/markdown": "~1.0"
     }
 }

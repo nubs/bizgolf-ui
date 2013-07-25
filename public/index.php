@@ -5,10 +5,13 @@ require_once "{$appDir}/vendor/autoload.php";
 $mongoUrl = getenv('MONGOHQ_URL') ?: die('Missing MONGOHQ_URL environment variable');
 $cookieSecretKey = getenv('COOKIE_SECRET_KEY') ?: die('Missing COOKIE_SECRET_KEY environment variable');
 
+$twigView = new \Slim\Views\Twig();
+$twigView->parserOptions = ['autoescape' => false];
+
 $app = new \Slim\Slim([
     'cookies.lifetime' => '1 month',
     'cookies.secret_key' => $cookieSecretKey,
-    'view' => new \Slim\Views\Twig(),
+    'view' => $twigView,
     'templates.path' => "{$appDir}/src/templates",
 ]);
 $app->add(new \Slim\Middleware\SessionCookie(['secret' => $cookieSecretKey, 'name' => 'session']));

@@ -97,6 +97,7 @@ return function(MongoDB $db) {
 
         $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
         $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
+        $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
 
         return $hole;
     };
