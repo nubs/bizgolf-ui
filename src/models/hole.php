@@ -121,6 +121,8 @@ return function(MongoDB $db) {
         if (array_key_exists('canSubmit', $conditions) && empty($conditions['canSubmit']['isAdmin']) && !$hole['isOpen']) {
             throw new Exception('Hole is not active.');
         }
+
+        return $hole;
     };
 
     return [
