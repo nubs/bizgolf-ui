@@ -1,7 +1,8 @@
 <?php
 return function(\Slim\Slim $app, array $holeModel, array $userModel, callable $loadAuth) {
     $app->get('/', $loadAuth, function() use($app, $holeModel, $userModel) {
-        $holes = $holeModel['find'](['visibleBy' => $app->config('codegolf.user')]);
+        $user = $app->config('codegolf.user');
+        $holes = $holeModel['find'](['visibleBy' => $user]);
 
         $submissions = [];
         foreach ($holes as $hole) {
@@ -14,9 +15,7 @@ return function(\Slim\Slim $app, array $holeModel, array $userModel, callable $l
 
         $submissions = array_slice($submissions, 0, 20);
 
-        $app->render(
-            'home.html',
-            ['holes' => $holes, 'users' => $userModel['find']([], $holes), 'user' => $app->config('codegolf.user'), 'submissions' => $submissions]
-        );
+        $users = $userModel['find']([], $holes);
+        $app->render('home.html', ['holes' => $holes, 'users' => $users, 'user' => $user, 'submissions' => $submissions]);
     })->name('home');
 };
