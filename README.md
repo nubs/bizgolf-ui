@@ -77,7 +77,7 @@ A better setup for production hosting would be apache or nginx.  For example, he
     <Directory "/srv/http/bizgolf-ui/public">
         Order Allow,Deny
         Allow from all
-        FallbackResource index.php
+        FallbackResource /index.php
     </Directory>
 </VirtualHost>
 ```
