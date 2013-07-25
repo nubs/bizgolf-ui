@@ -5,10 +5,7 @@ return function(\Slim\Slim $app, array $holeModel, array $userModel, callable $l
 
         $submissions = [];
         foreach ($holes as $hole) {
-            foreach ($hole['submissions'] as $submission) {
-                $submission['hole'] = $hole;
-                $submissions[] = $submission;
-            }
+            $submissions = array_merge($submissions, $hole['submissions']);
         }
 
         usort($submissions, function($a, $b) {
