@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "2d0a12547c975eec180280c2b621d1c4e4c5f546"
+                "reference": "67881d080362c4451b2f08e1c656ea1bed3a8b27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/2d0a12547c975eec180280c2b621d1c4e4c5f546",
-                "reference": "2d0a12547c975eec180280c2b621d1c4e4c5f546",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/67881d080362c4451b2f08e1c656ea1bed3a8b27",
+                "reference": "67881d080362c4451b2f08e1c656ea1bed3a8b27",
                 "shasum": ""
             },
             "require": {
@@ -80,7 +80,7 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/helpers.php"
+                    "src/bizgolf.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -101,7 +101,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-07-18 15:50:53"
+            "time": "2013-07-25 07:32:31"
         },
         {
             "name": "nubs/hiatus",
@@ -148,16 +148,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeguy/Slim.git",
-                "reference": "2.3.0"
+                "reference": "2.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Slim/zipball/2.3.0",
-                "reference": "2.3.0",
+                "url": "https://api.github.com/repos/codeguy/Slim/zipball/2.3.1",
+                "reference": "2.3.1",
                 "shasum": ""
             },
             "require": {
@@ -188,7 +188,7 @@
                 "rest",
                 "router"
             ],
-            "time": "2013-07-14 19:48:52"
+            "time": "2013-07-20 18:38:05"
         },
         {
             "name": "slim/views",
