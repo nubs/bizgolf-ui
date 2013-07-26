@@ -1,8 +1,7 @@
 (function($) {
   $('pre').each(function() {
-    var contents = $(this).html();
-    if (contents.length > 500) {
-      $(this).attr('data-contents', contents).text('- Click to show -').one('click', function() {
+    if ($(this).text().split("\n").length > 15) {
+      $(this).attr('data-contents', $(this).html()).text('- Click to show -').one('click', function() {
         $(this).html($(this).attr('data-contents')).removeAttr('data-contents');
       });
     }
