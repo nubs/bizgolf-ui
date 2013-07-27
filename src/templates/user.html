@@ -25,6 +25,8 @@
             </td>
             <td>{{ submission.score|e }}</td>
           </tr>
+        {% else %}
+          <tr><td colspan="3">No submissions</td></tr>
         {% endfor %}
         <tr class="info">
           <td><strong>Total</strong></td>
@@ -57,6 +59,8 @@
             <td>{{ submission.score|e }}</td>
             <td>{{ submission.timestampFormatted|e }}</td>
           </tr>
+        {% else %}
+          <tr><td colspan="4">No submissions</td></tr>
         {% endfor %}
       </table>
     </div>

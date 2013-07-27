@@ -31,6 +31,8 @@
             <td><a href="{{ urlFor('user', {"userId": user._id}) }}">{{ user.username|e }}</a></td>
             <td>{{ user.stats.score|e }}</td>
           </tr>
+        {% else %}
+          <tr><td colspan="3">No submissions</td></tr>
         {% endfor %}
       </table>
     </div>
@@ -60,6 +62,8 @@
             <td>{{ submission.score|e }}</td>
             <td>{{ submission.timestampFormatted|e }}</td>
           </tr>
+        {% else %}
+          <tr><td colspan="5">No submissions</td></tr>
         {% endfor %}
       </table>
     </div>
