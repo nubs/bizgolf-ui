@@ -2,20 +2,6 @@
 return function(MongoDB $db) {
     $collection = $db->holes;
 
-    $partitionByUser = function(array $submissions) {
-        $users = [];
-        foreach ($submissions as $submission) {
-            $userId = (string)$submission['user']['_id'];
-            if (array_key_exists($userId, $users)) {
-                $users[$userId][] = $submission;
-            } else {
-                $users[$userId] = [$submission];
-            }
-        }
-
-        return $users;
-    };
-
     $shortestSubmission = function(array $submissions) {
         return array_reduce($submissions, function($min, $submission) {
             if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
@@ -26,10 +12,18 @@ return function(MongoDB $db) {
         });
     };
 
-    $bestForEachUser = function(array $submissions) use($partitionByUser, $shortestSubmission) {
-        $users = $partitionByUser($submissions);
-        $result = [];
+    $bestForEachUser = function(array $submissions) use($shortestSubmission) {
+        $users = [];
+        foreach ($submissions as $submission) {
+            $userId = (string)$submission['user']['_id'];
+            if (array_key_exists($userId, $users)) {
+                $users[$userId][] = $submission;
+            } else {
+                $users[$userId] = [$submission];
+            }
+        }
 
+        $result = [];
         foreach ($users as $userId => $userSubmissions) {
             $shortest = $shortestSubmission($userSubmissions);
             if ($shortest !== null) {
