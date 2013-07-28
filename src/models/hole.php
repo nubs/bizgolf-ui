@@ -2,94 +2,100 @@
 return function(MongoDB $db) {
     $collection = $db->holes;
 
-    $bestForEachUser = function(array $submissions) {
-        $result = [];
-        foreach ($submissions as $submission) {
-            $userId = (string)$submission['user']['_id'];
-            if ($submission['result'] && (!isset($result[$userId]) || $submission['length'] < $result[$userId]['length'])) {
-                $result[$userId] = $submission;
+    $fleshOutHole = function($hole, array $conditions = []) use ($collection) {
+        $loadSpecification = function(array $hole) {
+            $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
+            if (empty($hole['fileName'])) {
+                if ($hole['specification']['constantValues']['type'] === 'array') {
+                    $hole['specification']['constantValues'] = $hole['specification']['constantValues']['values'];
+                } else {
+                    $hole['specification']['constantValues'] = create_function('', $hole['specification']['constantValues']['body']);
+                }
+
+                if ($hole['specification']['sample']['type'] === 'string') {
+                    $hole['specification']['sample'] = $hole['specification']['sample']['value'];
+                } else {
+                    $hole['specification']['sample'] = create_function(
+                        $hole['specification']['sample']['arguments'],
+                        $hole['specification']['sample']['body']
+                    );
+                }
+            } else {
+                $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
             }
-        }
 
-        usort($result, function($a, $b) {
-            return $a['length'] - $b['length'] ?: $a['timestamp'] - $b['timestamp'];
-        });
+            $trim = $hole['specification']['trim'];
+            $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 
-        return $result;
-    };
+            $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
+            $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
+            $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
+            $hole['sample'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($hole['sample']);
 
-    $fleshOutHole = function($hole, array $conditions = []) use ($collection, $bestForEachUser) {
+            return $hole;
+        };
+
+        $fleshOutSubmissions = function(array $hole) use($conditions) {
+            if (!array_key_exists('submissions', $hole)) {
+                $hole['submissions'] = [];
+            }
+
+            $shortest = array_reduce($hole['submissions'], function($min, $submission) {
+                if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
+                    return $submission;
+                }
+
+                return $min;
+            });
+
+            foreach ($hole['submissions'] as &$submission) {
+                $submission['hole'] = $hole;
+                $submission['rawCode'] = utf8_decode($submission['code']);
+                $submission['timestamp'] = $submission['_id']->getTimestamp();
+                $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
+
+                if ($submission['result']) {
+                    $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
+                } else {
+                    $submission['score'] = 0;
+                }
+
+                $submission['viewableByUser'] = array_key_exists('visibleBy', $conditions) &&
+                    (
+                        !empty($conditions['visibleBy']['isAdmin']) ||
+                        $hole['hasEnded'] ||
+                        (!empty($conditions['visibleBy']['_id']) && $conditions['visibleBy']['_id'] == $submission['user']['_id'])
+                    );
+            }
+
+            usort($hole['submissions'], function($a, $b) {
+                return $b['timestamp'] - $a['timestamp'];
+            });
+
+            return $hole;
+        };
+
+        $loadScoreboard = function(array $hole) {
+            foreach ($hole['submissions'] as $submission) {
+                $userId = (string)$submission['user']['_id'];
+                $isShorter = !isset($hole['scoreboard'][$userId]) || $submission['length'] < $hole['scoreboard'][$userId]['length'];
+                if ($submission['result'] && $isShorter) {
+                    $hole['scoreboard'][$userId] = $submission;
+                }
+            }
+
+            usort($hole['scoreboard'], function($a, $b) {
+                return $a['length'] - $b['length'] ?: $a['timestamp'] - $b['timestamp'];
+            });
+
+            return $hole;
+        };
+
         $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
         $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
         $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
 
-        if (!array_key_exists('submissions', $hole)) {
-            $hole['submissions'] = [];
-        }
-
-        $shortest = array_reduce($hole['submissions'], function($min, $submission) {
-            if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
-                return $submission;
-            }
-
-            return $min;
-        });
-
-        foreach ($hole['submissions'] as &$submission) {
-            $submission['hole'] = $hole;
-            $submission['rawCode'] = utf8_decode($submission['code']);
-            $submission['timestamp'] = $submission['_id']->getTimestamp();
-            $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
-
-            if ($submission['result']) {
-                $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
-            } else {
-                $submission['score'] = 0;
-            }
-
-            $submission['viewableByUser'] = array_key_exists('visibleBy', $conditions) &&
-                (
-                    !empty($conditions['visibleBy']['isAdmin']) ||
-                    $hole['hasEnded'] ||
-                    (!empty($conditions['visibleBy']['_id']) && $conditions['visibleBy']['_id'] == $submission['user']['_id'])
-                );
-        }
-
-        usort($hole['submissions'], function($a, $b) {
-            return $b['timestamp'] - $a['timestamp'];
-        });
-
-        $hole['scoreboard'] = $bestForEachUser($hole['submissions']);
-
-        $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
-        if (empty($hole['fileName'])) {
-            if ($hole['specification']['constantValues']['type'] === 'array') {
-                $hole['specification']['constantValues'] = $hole['specification']['constantValues']['values'];
-            } else {
-                $hole['specification']['constantValues'] = create_function('', $hole['specification']['constantValues']['body']);
-            }
-
-            if ($hole['specification']['sample']['type'] === 'string') {
-                $hole['specification']['sample'] = $hole['specification']['sample']['value'];
-            } else {
-                $hole['specification']['sample'] = create_function(
-                    $hole['specification']['sample']['arguments'],
-                    $hole['specification']['sample']['body']
-                );
-            }
-        } else {
-            $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
-        }
-
-        $trim = $hole['specification']['trim'];
-        $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
-
-        $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
-        $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
-        $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
-        $hole['sample'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($hole['sample']);
-
-        return $hole;
+        return $loadScoreboard($loadSpecification($fleshOutSubmissions($hole)));
     };
 
     $findOne = function($id, array $conditions = []) use($collection, $fleshOutHole) {
