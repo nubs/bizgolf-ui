@@ -2,32 +2,12 @@
 return function(MongoDB $db) {
     $collection = $db->holes;
 
-    $shortestSubmission = function(array $submissions) {
-        return array_reduce($submissions, function($min, $submission) {
-            if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
-                return $submission;
-            }
-
-            return $min;
-        });
-    };
-
-    $bestForEachUser = function(array $submissions) use($shortestSubmission) {
-        $users = [];
+    $bestForEachUser = function(array $submissions) {
+        $result = [];
         foreach ($submissions as $submission) {
             $userId = (string)$submission['user']['_id'];
-            if (array_key_exists($userId, $users)) {
-                $users[$userId][] = $submission;
-            } else {
-                $users[$userId] = [$submission];
-            }
-        }
-
-        $result = [];
-        foreach ($users as $userId => $userSubmissions) {
-            $shortest = $shortestSubmission($userSubmissions);
-            if ($shortest !== null) {
-                $result[$userId] = $shortest;
+            if ($submission['result'] && (!isset($result[$userId]) || $submission['length'] < $result[$userId]['length'])) {
+                $result[$userId] = $submission;
             }
         }
 
@@ -38,7 +18,7 @@ return function(MongoDB $db) {
         return $result;
     };
 
-    $fleshOutHole = function($hole, array $conditions = []) use ($collection, $bestForEachUser, $shortestSubmission) {
+    $fleshOutHole = function($hole, array $conditions = []) use ($collection, $bestForEachUser) {
         $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
         $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
         $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
@@ -47,7 +27,14 @@ return function(MongoDB $db) {
             $hole['submissions'] = [];
         }
 
-        $shortest = $shortestSubmission($hole['submissions']);
+        $shortest = array_reduce($hole['submissions'], function($min, $submission) {
+            if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
+                return $submission;
+            }
+
+            return $min;
+        });
+
         foreach ($hole['submissions'] as &$submission) {
             $submission['hole'] = $hole;
             $submission['rawCode'] = utf8_decode($submission['code']);
