@@ -4,27 +4,21 @@ return function(MongoDB $db) {
 
     $fleshOutHole = function($hole, array $conditions = []) use ($collection) {
         $loadSpecification = function(array $hole) {
-            $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
+            $spec = $hole['specification'] ?: [];
             if (empty($hole['fileName'])) {
-                if ($hole['specification']['constantValues']['type'] === 'array') {
-                    $hole['specification']['constantValues'] = $hole['specification']['constantValues']['values'];
-                } else {
-                    $hole['specification']['constantValues'] = create_function('', $hole['specification']['constantValues']['body']);
-                }
+                $cv = $spec['constantValues'];
+                $spec['constantValues'] = $cv['type'] === 'array' ? $cv['values'] : create_function('', $cv['body']);
 
-                if ($hole['specification']['sample']['type'] === 'string') {
-                    $hole['specification']['sample'] = $hole['specification']['sample']['value'];
-                } else {
-                    $hole['specification']['sample'] = create_function(
-                        $hole['specification']['sample']['arguments'],
-                        $hole['specification']['sample']['body']
-                    );
-                }
+                $smp = $spec['sample'];
+                $spec['sample'] = $smp['type'] === 'string' ? $smp['value'] : create_function($smp['arguments'], $smp['body']);
             } else {
-                $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
+                $spec = \Bizgolf\loadHole($hole['fileName']);
             }
 
-            $trim = $hole['specification']['trim'];
+            $hole['specification'] = $spec;
+
+            $trim = $spec['trim'];
+            $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
             $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 
             $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
