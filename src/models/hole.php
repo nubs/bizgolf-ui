@@ -21,11 +21,6 @@ return function(MongoDB $db) {
             $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
             $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 
-            $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
-            $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
-            $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
-            $hole['sample'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($hole['sample']);
-
             return $hole;
         };
 
@@ -88,6 +83,10 @@ return function(MongoDB $db) {
         $hole['hasStarted'] = empty($hole['startDate']) || $hole['startDate'] <= time();
         $hole['hasEnded'] = !empty($hole['endDate']) && $hole['endDate'] < time();
         $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
+        $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
+        $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
+        $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
+        $hole['sample'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($hole['sample']);
 
         return $loadScoreboard($loadSpecification($fleshOutSubmissions($hole)));
     };
