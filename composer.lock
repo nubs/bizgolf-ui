@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "d2556f9494c6e16d84b5091b9202efc3e49187cd"
+                "reference": "7e9ecb7f188139a4b136f0e84e1e53c258333b39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/d2556f9494c6e16d84b5091b9202efc3e49187cd",
-                "reference": "d2556f9494c6e16d84b5091b9202efc3e49187cd",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/7e9ecb7f188139a4b136f0e84e1e53c258333b39",
+                "reference": "7e9ecb7f188139a4b136f0e84e1e53c258333b39",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +240,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-07-30 13:20:36"
+            "time": "2013-08-02 01:35:07"
         },
         {
             "name": "nubs/hiatus",
