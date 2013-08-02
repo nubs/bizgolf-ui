@@ -65,6 +65,7 @@ return function(MongoDB $db) {
         };
 
         $loadScoreboard = function(array $hole) {
+            $hole['scoreboard'] = [];
             foreach ($hole['submissions'] as $submission) {
                 $userId = (string)$submission['user']['_id'];
                 $isShorter = !isset($hole['scoreboard'][$userId]) || $submission['length'] < $hole['scoreboard'][$userId]['length'];
