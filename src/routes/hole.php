@@ -111,7 +111,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             } else {
                 $specification = [
                     'constantName' => $req->post('constantName') ?: null,
-                    'disabledFunctionality' => explode(',', $req->post('disabledFunctionality') ?: ''),
+                    'disabledFunctionality' => array_filter(explode(',', $req->post('disabledFunctionality') ?: '')),
                     'constantValues' => $req->post('constantValues'),
                     'sample' => $req->post('specification-sample'),
                     'trim' => $req->post('trim'),
