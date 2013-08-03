@@ -95,7 +95,6 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             }
 
             $req = $app->request();
-            $fileName = $req->post('fileName');
             $fields = [
                 'title' => $req->post('title'),
                 'shortDescription' => $req->post('shortDescription'),
@@ -106,36 +105,11 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
                 'endDate' => $req->post('endDate') ?: null,
             ];
 
+            $fileName = $req->post('fileName');
             if ($fileName) {
                 $fields['fileName'] = $fileName;
             } else {
-                $specification = [
-                    'constantName' => $req->post('constantName') ?: null,
-                    'disabledFunctionality' => array_filter(explode(',', $req->post('disabledFunctionality') ?: '')),
-                    'constantValues' => $req->post('constantValues'),
-                    'sample' => $req->post('specification-sample'),
-                    'trim' => $req->post('trim'),
-                ];
-
-                if ($req->post('constantValuesIsAFunction')) {
-                    $specification['constantValues'] = ['type' => 'function', 'body' => $specification['constantValues']];
-                } elseif(empty($specification['constantValues'])) {
-                    $specification['constantValues'] = ['type' => 'array', 'values' => []];
-                } else {
-                    $specification['constantValues'] = ['type' => 'array', 'values' => explode(',', $specification['constantValues'])];
-                }
-
-                if ($req->post('sampleIsAFunction')) {
-                    $specification['sample'] = [
-                        'type' => 'function',
-                        'arguments' => $req->post('sampleArguments'),
-                        'body' => $specification['sample'],
-                    ];
-                } else {
-                    $specification['sample'] = ['type' => 'string', 'value' => $specification['sample']];
-                }
-
-                $fields['specification'] = $specification;
+                $fields['specification'] = $req->post('specification');
             }
 
             $hole = $holeModel['create']($fields);

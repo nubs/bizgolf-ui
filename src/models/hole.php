@@ -4,20 +4,13 @@ return function(MongoDB $db) {
 
     $fleshOutHole = function($hole, array $conditions = []) use ($collection) {
         $loadSpecification = function(array $hole) {
-            $spec = $hole['specification'] ?: [];
             if (empty($hole['fileName'])) {
-                $cv = $spec['constantValues'];
-                $spec['constantValues'] = $cv['type'] === 'array' ? $cv['values'] : create_function('', $cv['body']);
-
-                $smp = $spec['sample'];
-                $spec['sample'] = $smp['type'] === 'string' ? $smp['value'] : create_function($smp['arguments'], $smp['body']);
+                $hole['specification'] = eval(preg_replace('/^<\?(php)?/i', '', $hole['specification']));
             } else {
-                $spec = \Bizgolf\loadHole($hole['fileName']);
+                $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
             }
 
-            $hole['specification'] = $spec;
-
-            $trim = $spec['trim'];
+            $trim = $hole['specification']['trim'];
             $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
             $hole['trim'] = isset($trims[$trim]) ? $trims[$trim] : $trim;
 
