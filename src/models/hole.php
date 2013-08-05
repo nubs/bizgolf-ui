@@ -125,6 +125,10 @@ return function(MongoDB $db) {
                 }
             }
 
+            usort($holes, function($a, $b) {
+                return $b['_id']->getTimestamp() - $a['_id']->getTimestamp();
+            });
+
             return $holes;
         },
         'findOne' => $findOne,
