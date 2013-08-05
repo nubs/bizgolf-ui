@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "4d2ebfde613dbcd3565dc100216a321ac39c037c"
+                "reference": "3c3b69b2070b5ed45f96c63050480f7563ab02a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/4d2ebfde613dbcd3565dc100216a321ac39c037c",
-                "reference": "4d2ebfde613dbcd3565dc100216a321ac39c037c",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/3c3b69b2070b5ed45f96c63050480f7563ab02a6",
+                "reference": "3c3b69b2070b5ed45f96c63050480f7563ab02a6",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +240,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-08-02 09:52:52"
+            "time": "2013-08-05 02:23:31"
         },
         {
             "name": "nubs/hiatus",
@@ -381,16 +381,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.13.1",
+            "version": "v1.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.13.1"
+                "reference": "v1.13.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.1",
-                "reference": "v1.13.1",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.2",
+                "reference": "v1.13.2",
                 "shasum": ""
             },
             "require": {
@@ -409,7 +409,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -426,7 +426,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-06-06 06:06:01"
+            "time": "2013-08-03 15:35:31"
         }
     ],
     "packages-dev": [
