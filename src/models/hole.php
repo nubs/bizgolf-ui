@@ -153,7 +153,15 @@ return function(MongoDB $db) {
                     $submission['result'] = $result['result'];
                     $collection->update(
                         ['_id' => new MongoId($id), 'submissions._id' => $submission['_id']],
-                        ['$set' => ['submissions.$.result' => $submission['result']]]
+                        [
+                            '$set' => [
+                                'submissions.$.result' => $result['result'],
+                                'submissions.$.output' => utf8_encode($result['output']),
+                                'submissions.$.stderr' => utf8_encode($result['stderr']),
+                                'submissions.$.sample' => $result['sample'],
+                                'submissions.$.constantValue' => $result['constantValue'],
+                            ],
+                        ]
                     );
                     $changedSubmissions[] = $submission;
                 }
