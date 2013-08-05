@@ -33,6 +33,9 @@ return function(MongoDB $db) {
             foreach ($hole['submissions'] as &$submission) {
                 $submission['hole'] = $hole;
                 $submission['rawCode'] = utf8_decode($submission['code']);
+                $submission['invertedCode'] = preg_replace_callback('/~([^[:ascii:]]+)/', function($matches) {
+                    return "'" . ~$matches[1] . "'";
+                }, $submission['rawCode']);
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
 
