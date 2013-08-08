@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Submission for {{ hole.title|e }}{% endblock %}
 {% block content %}
-  <h2><a href="{{ urlFor('hole', {"holeId": hole._id}) }}">{{ hole.title|e }}</a></h2>
+<h2><a href="{{ urlFor('hole', {"holeId": hole._id}) }}">{{ hole.title|e }}</a> by <a href="{{ urlFor('user', {"userId": submission.user._id}) }}">{{ submission.user.username|e }}</a></h2>
   <dl class="dl-horizontal">
     <dt>Source Code:</dt>
     <dd><pre>{{ submission.code }}</pre></dd>
