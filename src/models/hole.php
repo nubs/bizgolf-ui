@@ -139,7 +139,7 @@ return function(MongoDB $db) {
             $hole = $findOne($id, ['canSubmit' => $user]);
             $result = \Bizgolf\judge($hole['specification'], 'php-5.5', $submission);
             $result['_id'] = new MongoId();
-            $result['user'] = $user;
+            $result['user'] = ['_id' => $user['_id'], 'username' => $user['username']];
 
             $code = file_get_contents($submission);
             $result['code'] = utf8_encode($code);
