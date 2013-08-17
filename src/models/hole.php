@@ -31,7 +31,7 @@ return function(MongoDB $db) {
             });
 
             foreach ($hole['submissions'] as &$submission) {
-                $submission['hole'] = $hole;
+                $submission['hole'] = ['_id' => $hole['_id'], 'title' => $hole['title']];
                 $submission['rawCode'] = utf8_decode($submission['code']);
                 $submission['invertedCode'] = preg_replace_callback('/~([^[:ascii:]]+)/', function($matches) {
                     return "'" . ~$matches[1] . "'";
