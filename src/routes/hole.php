@@ -13,12 +13,14 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         $hole = null;
         try {
             $hole = $holeModel['findOne']($holeId, ['visibleBy' => $app->config('codegolf.user')]);
+            $hole['submissions'] = array_slice($hole['submissions'], 0, 20);
+            $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
+            $hole['sample'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($hole['sample']);
         } catch (Exception $e) {
             $app->flash('error', $e->getMessage());
             $app->redirect($app->urlFor('home'));
         }
 
-        $hole['submissions'] = array_slice($hole['submissions'], 0, 20);
         $app->render('hole.html', ['hole' => $hole, 'user' => $app->config('codegolf.user')]);
     })->name('hole');
 

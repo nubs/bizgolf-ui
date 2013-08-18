@@ -82,8 +82,6 @@ return function(MongoDB $db) {
         $hole['isOpen'] = $hole['hasStarted'] && !$hole['hasEnded'];
         $hole['startDateFormatted'] = empty($hole['startDate']) ? null : date(DATE_RFC2822, $hole['startDate']);
         $hole['endDateFormatted'] = empty($hole['endDate']) ? null : date(DATE_RFC2822, $hole['endDate']);
-        $hole['description'] = (new \dflydev\markdown\MarkdownParser())->transformMarkdown($hole['description']);
-        $hole['sample'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($hole['sample']);
 
         return $loadScoreboard($loadSpecification($fleshOutSubmissions($hole)));
     };
