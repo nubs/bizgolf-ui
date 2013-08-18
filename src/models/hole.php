@@ -40,7 +40,7 @@ return function(MongoDB $db) {
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
 
                 if ($submission['result']) {
-                    $submission['score'] = (int)((float)$shortest['length'] * 1000.0 / (float)$submission['length']);
+                    $submission['score'] = (int)($shortest['length'] * 1000 / $submission['length']);
                 } else {
                     $submission['score'] = 0;
                 }
