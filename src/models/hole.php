@@ -38,13 +38,7 @@ return function(MongoDB $db) {
                 }, $submission['rawCode']);
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
-
-                if ($submission['result']) {
-                    $submission['score'] = (int)($shortest['length'] * 1000 / $submission['length']);
-                } else {
-                    $submission['score'] = 0;
-                }
-
+                $submission['score'] = $submission['result'] ? (int)($shortest['length'] * 1000 / $submission['length']) : 0;
                 $submission['viewableByUser'] = array_key_exists('visibleBy', $conditions) &&
                     (
                         !empty($conditions['visibleBy']['isAdmin']) ||
