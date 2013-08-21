@@ -28,11 +28,11 @@ return function(MongoDB $db) {
 
     return [
         'find' => function(array $conditions = [], array $holes) use($collection, $loadScoreboard) {
-            $users = iterator_to_array($collection->find($conditions));
-            foreach ($users as &$user) {
-                $user = $loadScoreboard($user, $holes);
-            }
+            $loadScoreboardForUser = function($user) use($holes, $loadScoreboard) {
+                return $loadScoreboard($user, $holes);
+            };
 
+            $users = array_map($loadScoreboardForUser, iterator_to_array($collection->find($conditions)));
             usort($users, function($a, $b) {
                 return $b['stats']['score'] - $a['stats']['score'];
             });
