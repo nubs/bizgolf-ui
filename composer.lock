@@ -154,16 +154,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
-                "url": "git://github.com/briannesbitt/Carbon.git",
-                "reference": "1.2.0"
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "24c4262e994f7f2a258db5ccb5b2f34073f162ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/briannesbitt/Carbon/zipball/1.2.0",
-                "reference": "1.2.0",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/24c4262e994f7f2a258db5ccb5b2f34073f162ca",
+                "reference": "24c4262e994f7f2a258db5ccb5b2f34073f162ca",
                 "shasum": ""
             },
             "require": {
@@ -172,7 +172,7 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Carbon": "."
+                    "Carbon": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -193,7 +193,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2012-10-14 17:41:18"
+            "time": "2013-08-21 04:36:40"
         },
         {
             "name": "nubs/bizgolf",
@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "db78716b8cf50d2847a84a03577f80e5f8e41238"
+                "reference": "1687f6655fd2f3c4f59252482714263e6644e69f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/db78716b8cf50d2847a84a03577f80e5f8e41238",
-                "reference": "db78716b8cf50d2847a84a03577f80e5f8e41238",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/1687f6655fd2f3c4f59252482714263e6644e69f",
+                "reference": "1687f6655fd2f3c4f59252482714263e6644e69f",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +240,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-08-11 23:42:39"
+            "time": "2013-08-24 00:34:44"
         },
         {
             "name": "nubs/hiatus",
