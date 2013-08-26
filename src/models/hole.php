@@ -42,7 +42,7 @@ return function(MongoDB $db) {
                         $postfix .= '}';
                     }
 
-                    return $prefix . ~$matches[2] . $postfix;
+                    return $prefix . str_replace("'", "\\'", ~$matches[2]) . $postfix;
                 }, $submission['rawCode']);
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
