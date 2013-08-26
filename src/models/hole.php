@@ -33,13 +33,15 @@ return function(MongoDB $db) {
             foreach ($hole['submissions'] as &$submission) {
                 $submission['hole'] = ['_id' => $hole['_id'], 'title' => $hole['title']];
                 $submission['rawCode'] = utf8_decode($submission['code']);
-                $submission['invertedCode'] = preg_replace_callback('/(\\$?)([^[:ascii:]]+)/', function($matches) {
+                $submission['invertedCode'] = preg_replace_callback('/([~$]?)([^[:ascii:]]+)/', function($matches) {
                     $prefix = "~'";
                     $postfix = "'";
 
                     if ($matches[1] === '$') {
                         $prefix = "\${" . $prefix;
                         $postfix .= '}';
+                    } elseif ($matches[1] === '~') {
+                        $prefix = "'";
                     }
 
                     return $prefix . str_replace("'", "\\'", ~$matches[2]) . $postfix;
