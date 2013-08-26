@@ -34,11 +34,15 @@ return function(MongoDB $db) {
                 $submission['hole'] = ['_id' => $hole['_id'], 'title' => $hole['title']];
                 $submission['rawCode'] = utf8_decode($submission['code']);
                 $submission['invertedCode'] = preg_replace_callback('/(\\$?)([^[:ascii:]]+)/', function($matches) {
-                    if ($matches[1] === '') {
-                        return "~'" . ~$matches[2] . "'";
+                    $prefix = "~'";
+                    $postfix = "'";
+
+                    if ($matches[1] === '$') {
+                        $prefix = "\${" . $prefix;
+                        $postfix .= '}';
                     }
 
-                    return "\${~'" . ~$matches[2] . "'}";
+                    return $prefix . ~$matches[2] . $postfix;
                 }, $submission['rawCode']);
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
