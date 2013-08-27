@@ -32,7 +32,6 @@ return function(MongoDB $db) {
 
             foreach ($hole['submissions'] as &$submission) {
                 $submission['hole'] = ['_id' => $hole['_id'], 'title' => $hole['title']];
-                $submission['rawCode'] = utf8_decode($submission['code']);
                 $submission['invertedCode'] = preg_replace_callback('/([~$]?)([^[:ascii:]]+)/', function($matches) {
                     $prefix = "~'";
                     $postfix = "'";
@@ -45,7 +44,7 @@ return function(MongoDB $db) {
                     }
 
                     return $prefix . str_replace("'", "\\'", ~$matches[2]) . $postfix;
-                }, $submission['rawCode']);
+                }, utf8_decode($submission['code']));
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
                 $submission['score'] = $submission['result'] ? (int)($shortest['length'] * 1000 / $submission['length']) : 0;
@@ -156,7 +155,7 @@ return function(MongoDB $db) {
             $changedSubmissions = [];
             foreach ($hole['submissions'] as $submission) {
                 $submissionFile = tempnam(sys_get_temp_dir(), 'revalidate');
-                file_put_contents($submissionFile, $submission['rawCode']);
+                file_put_contents($submissionFile, utf8_decode($submission['code']));
                 $result = \Bizgolf\judge($hole['specification'], 'php-5.5', $submissionFile);
                 if ($result['result'] !== $submission['result']) {
                     $submission['result'] = $result['result'];
