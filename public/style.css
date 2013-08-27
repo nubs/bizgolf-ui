@@ -1,3 +1,7 @@
 pre.pre-scrollable {
   white-space: pre;
 }
+
+.inverted-text {
+  background-color: #ffaaaa;
+}

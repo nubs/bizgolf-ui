@@ -73,6 +73,10 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         }
 
         $submission['code'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($submission['code']);
+
+        $submission['invertedCode'] = preg_replace_callback('/[^[:ascii:]]+/', function($matches) {
+            return '<span class="inverted-text">' . htmlspecialchars(~$matches[0], ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . '</span>';
+        }, utf8_decode($submission['code']));
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
 

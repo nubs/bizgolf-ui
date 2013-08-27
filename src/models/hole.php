@@ -32,19 +32,6 @@ return function(MongoDB $db) {
 
             foreach ($hole['submissions'] as &$submission) {
                 $submission['hole'] = ['_id' => $hole['_id'], 'title' => $hole['title']];
-                $submission['invertedCode'] = preg_replace_callback('/([~$]?)([^[:ascii:]]+)/', function($matches) {
-                    $prefix = "~'";
-                    $postfix = "'";
-
-                    if ($matches[1] === '$') {
-                        $prefix = "\${" . $prefix;
-                        $postfix .= '}';
-                    } elseif ($matches[1] === '~') {
-                        $prefix = "'";
-                    }
-
-                    return $prefix . str_replace("'", "\\'", ~$matches[2]) . $postfix;
-                }, utf8_decode($submission['code']));
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
                 $submission['score'] = $submission['result'] ? (int)($shortest['length'] * 1000 / $submission['length']) : 0;
