@@ -5,7 +5,7 @@ return function(MongoDB $db) {
     $fleshOutHole = function($hole, array $conditions = []) use ($collection) {
         $loadSpecification = function(array $hole) {
             if (empty($hole['fileName'])) {
-                $hole['specification'] = eval(preg_replace('/^<\?(php)?/i', '', $hole['specification']));
+                $hole['specification'] = \Bizgolf\loadHole(eval(preg_replace('/^<\?(php)?/i', '', $hole['specification'])));
             } else {
                 $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
             }
