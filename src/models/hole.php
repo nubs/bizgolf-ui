@@ -23,11 +23,7 @@ return function(MongoDB $db) {
             }
 
             $shortest = array_reduce($hole['submissions'], function($min, $submission) {
-                if ($submission['result'] && ($min === null || $submission['length'] < $min['length'])) {
-                    return $submission;
-                }
-
-                return $min;
+                return $submission['result'] && ($min === null || $submission['length'] < $min['length']) ? $submission : $min;
             });
 
             foreach ($hole['submissions'] as &$submission) {
