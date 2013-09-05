@@ -68,8 +68,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
         if ($submission['result']) {
             $submission['diff'] = '';
         } else {
-            $diff = new \cogpowered\FineDiff\Diff();
-            $submission['diff'] = $diff->render($submission['output'], $submission['sample']);
+            $submission['diff'] = (new \cogpowered\FineDiff\Diff())->render($submission['output'], $submission['sample']);
         }
 
         $submission['code'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($submission['code']);
