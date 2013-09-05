@@ -5,3 +5,7 @@ pre.pre-scrollable {
 .inverted-text {
   background-color: #ffaaaa;
 }
+
+.control-char {
+  color: #333388;
+}

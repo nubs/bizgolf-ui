@@ -73,8 +73,29 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
 
         $submission['code'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($submission['code']);
 
-        $submission['invertedCode'] = preg_replace_callback('/[^[:ascii:]]+/', function($matches) {
-            return '<span class="inverted-text">' . htmlspecialchars(~$matches[0], ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . '</span>';
+        $submission['invertedCode'] = preg_replace_callback('/[^\x20-\x7e]/', function($matches) {
+            $string = $matches[0];
+            $ord = ord($string);
+            $prefix = '';
+            $postfix = '';
+            if ($ord > 126) {
+                $ord = ord(~$string);
+                $prefix = '<span class="inverted-text">';
+                $postfix = '</span>';
+            }
+
+            if ($ord === 10) {
+                if ($prefix === '') {
+                    return $string;
+                } else {
+                    return $prefix . '&#9252;' . $postfix;
+                }
+            } elseif ($ord < 32) {
+                return $prefix . '<span class="control-char">\x' . dechex($ord) . '</span>' . $postfix;
+            } else {
+                return $prefix . htmlspecialchars(chr($ord), ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . $postfix;
+            }
+
         }, utf8_decode($submission['code']));
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
