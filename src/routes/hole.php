@@ -78,24 +78,19 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $ord = ord($string);
             $prefix = '';
             $postfix = '';
-            if ($ord > 126) {
+            if ($ord > 127) {
                 $ord = ord(~$string);
                 $prefix = '<span class="inverted-text">';
                 $postfix = '</span>';
             }
 
             if ($ord === 10) {
-                if ($prefix === '') {
-                    return $string;
-                } else {
-                    return $prefix . '&#9252;' . $postfix;
-                }
+                return $prefix === '' ? $string : "{$prefix}&#9252;{$postfix}";
             } elseif ($ord < 32) {
                 return $prefix . '<span class="control-char">\x' . dechex($ord) . '</span>' . $postfix;
-            } else {
-                return $prefix . htmlspecialchars(chr($ord), ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . $postfix;
             }
 
+            return $prefix . htmlspecialchars(chr($ord), ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . $postfix;
         }, utf8_decode($submission['code']));
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
