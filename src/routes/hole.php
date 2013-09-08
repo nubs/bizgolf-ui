@@ -79,7 +79,8 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $prefix = '';
             $postfix = '';
             if ($ord > 127) {
-                $ord = ord(~$string);
+                $string = ~$string;
+                $ord = ord($string);
                 $prefix = '<span class="inverted-text">';
                 $postfix = '</span>';
             }
@@ -90,7 +91,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
                 return $prefix . '<span class="control-char">\x' . dechex($ord) . '</span>' . $postfix;
             }
 
-            return $prefix . htmlspecialchars(chr($ord), ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . $postfix;
+            return $prefix . htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'ISO-8859-1') . $postfix;
         }, utf8_decode($submission['code']));
         $app->render('submission.html', ['hole' => $hole, 'submission' => $submission, 'user' => $user]);
     })->name('submission');
