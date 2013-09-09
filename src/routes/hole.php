@@ -65,12 +65,7 @@ return function(\Slim\Slim $app, array $holeModel, callable $loadAuth, callable 
             $app->redirect($app->urlFor('hole', ['holeId' => $holeId]));
         }
 
-        if ($submission['result']) {
-            $submission['diff'] = '';
-        } else {
-            $submission['diff'] = (new \cogpowered\FineDiff\Diff())->render($submission['output'], $submission['sample']);
-        }
-
+        $submission['diff'] = $submission['result'] ? '' : (new \cogpowered\FineDiff\Diff())->render($submission['output'], $submission['sample']);
         $submission['code'] = (new \FSHL\Highlighter(new \FSHL\Output\Html()))->setLexer(new \FSHL\Lexer\Php())->highlight($submission['code']);
 
         $submission['invertedCode'] = preg_replace_callback('/[^\x20-\x7e]/', function($matches) {
