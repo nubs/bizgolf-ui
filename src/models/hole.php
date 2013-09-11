@@ -18,7 +18,7 @@ return function(MongoDB $db) {
         };
 
         $fleshOutSubmissions = function(array $hole) use($conditions) {
-            if (!array_key_exists('submissions', $hole)) {
+            if (!isset($hole['submissions'])) {
                 $hole['submissions'] = [];
             }
 
@@ -31,11 +31,11 @@ return function(MongoDB $db) {
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
                 $submission['score'] = $submission['result'] ? (int)($shortest['length'] * 1000 / $submission['length']) : 0;
-                $submission['viewableByUser'] = array_key_exists('visibleBy', $conditions) &&
+                $submission['viewableByUser'] = isset($conditions['visibleBy']) &&
                     (
                         !empty($conditions['visibleBy']['isAdmin']) ||
                         $hole['hasEnded'] ||
-                        (!empty($conditions['visibleBy']['_id']) && $conditions['visibleBy']['_id'] == $submission['user']['_id'])
+                        (isset($conditions['visibleBy']['_id']) && $conditions['visibleBy']['_id'] == $submission['user']['_id'])
                     );
             }
 
@@ -85,11 +85,11 @@ return function(MongoDB $db) {
 
         $hole = $fleshOutHole($hole, $conditions);
 
-        if (array_key_exists('visibleBy', $conditions) && empty($conditions['visibleBy']['isAdmin']) && !$hole['hasStarted']) {
+        if (isset($conditions['visibleBy'] && empty($conditions['visibleBy']['isAdmin']) && !$hole['hasStarted']) {
             throw new Exception('Hole has not started.');
         }
 
-        if (array_key_exists('canSubmit', $conditions) && empty($conditions['canSubmit']['isAdmin']) && !$hole['isOpen']) {
+        if (isset($conditions['canSubmit'] && empty($conditions['canSubmit']['isAdmin']) && !$hole['isOpen']) {
             throw new Exception('Hole is not active.');
         }
 
@@ -98,11 +98,8 @@ return function(MongoDB $db) {
 
     return [
         'find' => function(array $conditions = []) use($collection, $fleshOutHole) {
-            $visibleBy = null;
-            if (array_key_exists('visibleBy', $conditions)) {
-                $visibleBy = $conditions['visibleBy'];
-                unset($conditions['visibleBy']);
-            }
+            $visibleBy = isset($conditions['visibleBy']) ? $conditions['visibleBy'] : null;
+            unset($conditions['visibleBy']);
 
             $holes = [];
             foreach (iterator_to_array($collection->find($conditions)) as $hole) {
