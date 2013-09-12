@@ -4,11 +4,8 @@ return function(MongoDB $db) {
 
     $fleshOutHole = function($hole, array $conditions = []) use ($collection) {
         $loadSpecification = function(array $hole) {
-            if (empty($hole['fileName'])) {
-                $hole['specification'] = \Bizgolf\loadHole(eval(preg_replace('/^<\?(php)?/i', '', $hole['specification'])));
-            } else {
-                $hole['specification'] = \Bizgolf\loadHole($hole['fileName']);
-            }
+            $holeRef = empty($hole['fileName']) ? eval(preg_replace('/^<\?(php)?/i', '', $hole['specification'])) : $hole['fileName'];
+            $hole['specification'] = \Bizgolf\loadHole($holeRef);
 
             $trim = $hole['specification']['trim'];
             $trims = ['trim' => 'Full Trim', 'ltrim' => 'Left Trim', 'rtrim' => 'Right Trim'];
