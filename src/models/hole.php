@@ -19,15 +19,15 @@ return function(MongoDB $db) {
                 $hole['submissions'] = [];
             }
 
-            $shortest = array_reduce($hole['submissions'], function($min, $submission) {
-                return $submission['result'] && ($min === null || $submission['length'] < $min['length']) ? $submission : $min;
-            });
+            $shortestNumerator = array_reduce($hole['submissions'], function($min, $submission) {
+                return $submission['result'] && ($min === null || $submission['length'] < $min) ? $submission['length'] : $min;
+            }) * 1000;
 
             foreach ($hole['submissions'] as &$submission) {
                 $submission['hole'] = ['_id' => $hole['_id'], 'title' => $hole['title']];
                 $submission['timestamp'] = $submission['_id']->getTimestamp();
                 $submission['timestampFormatted'] = \Carbon\Carbon::createFromTimeStamp($submission['timestamp'])->diffForHumans();
-                $submission['score'] = $submission['result'] ? (int)($shortest['length'] * 1000 / $submission['length']) : 0;
+                $submission['score'] = $submission['result'] ? (int)($shortestNumerator / $submission['length']) : 0;
                 $submission['viewableByUser'] = isset($conditions['visibleBy']) &&
                     (
                         !empty($conditions['visibleBy']['isAdmin']) ||
