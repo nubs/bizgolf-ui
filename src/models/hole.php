@@ -82,11 +82,11 @@ return function(MongoDB $db) {
 
         $hole = $fleshOutHole($hole, $conditions);
 
-        if (isset($conditions['visibleBy'] && empty($conditions['visibleBy']['isAdmin']) && !$hole['hasStarted']) {
+        if (isset($conditions['visibleBy']) && empty($conditions['visibleBy']['isAdmin']) && !$hole['hasStarted']) {
             throw new Exception('Hole has not started.');
         }
 
-        if (isset($conditions['canSubmit'] && empty($conditions['canSubmit']['isAdmin']) && !$hole['isOpen']) {
+        if (isset($conditions['canSubmit']) && empty($conditions['canSubmit']['isAdmin']) && !$hole['isOpen']) {
             throw new Exception('Hole is not active.');
         }
 
