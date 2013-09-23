@@ -144,7 +144,7 @@ return function(MongoDB $db) {
                                 'submissions.$.output' => utf8_encode($result['output']),
                                 'submissions.$.stderr' => utf8_encode($result['stderr']),
                                 'submissions.$.sample' => $result['sample'],
-                                'submissions.$.constantValue' => $result['constantValue'],
+                                'submissions.$.constants' => $result['constants'],
                             ],
                         ]
                     );

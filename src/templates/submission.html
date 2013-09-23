@@ -15,10 +15,10 @@
     <dd><pre>{{ submission.diff }}</pre></dd>
     <dt>Error:</dt>
     <dd><pre>{{ submission.stderr|e }}</pre></dd>
-    {% if submission.constantName %}
+    {% for constantName, constantValue in submission.constants %}
     <dt>Constant:</dt>
-    <dd><pre>{{ submission.constantName|e }}={{ submission.constantValue|e }}</pre></dd>
-    {% endif %}
+    <dd><pre>{{ constantName|e }}={{ constantValue|e }}</pre></dd>
+    {% endfor %}
     <dt>Exit Status:</dt>
     <dd>{{ submission.exitStatus|e }}</dd>
     <dt>Length:</dt>

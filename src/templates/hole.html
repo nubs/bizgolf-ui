@@ -7,10 +7,10 @@
       <dl class="dl-horizontal">
         <dt>Description:</dt>
         <dd>{{ hole.description }}</dd>
-        {% if hole.specification.constantName %}
+        {% for constantName, constantValue in hole.specification.constants %}
           <dt>Constant Name:</dt>
-          <dd>{{ hole.specification.constantName|e }}</dd>
-        {% endif %}
+          <dd>{{ constantName|e }}</dd>
+        {% endfor %}
         {% if hole.disabledFunctions %}
           <dt>Disabled Functions:</dt>
           <dd>{{ hole.disabledFunctions|e }}</dd>

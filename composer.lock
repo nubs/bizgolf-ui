@@ -154,16 +154,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "24c4262e994f7f2a258db5ccb5b2f34073f162ca"
+                "reference": "06f0b8a99a90c5392ceccb09b75b74ff6c08ec07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/24c4262e994f7f2a258db5ccb5b2f34073f162ca",
-                "reference": "24c4262e994f7f2a258db5ccb5b2f34073f162ca",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/06f0b8a99a90c5392ceccb09b75b74ff6c08ec07",
+                "reference": "06f0b8a99a90c5392ceccb09b75b74ff6c08ec07",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +193,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-08-21 04:36:40"
+            "time": "2013-09-09 02:39:19"
         },
         {
             "name": "nubs/bizgolf",
@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "db9e1f82b6e0f12b32be8011991c262b641df376"
+                "reference": "4ddf8506bf83517f7c10dba2761b6de23b654586"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/db9e1f82b6e0f12b32be8011991c262b641df376",
-                "reference": "db9e1f82b6e0f12b32be8011991c262b641df376",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/4ddf8506bf83517f7c10dba2761b6de23b654586",
+                "reference": "4ddf8506bf83517f7c10dba2761b6de23b654586",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +240,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-09-03 00:21:53"
+            "time": "2013-09-22 02:04:13"
         },
         {
             "name": "nubs/hiatus",
