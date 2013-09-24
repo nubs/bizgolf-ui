@@ -58,22 +58,27 @@
         },
         {
             "name": "dflydev/markdown",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-markdown.git",
-                "reference": "v1.0.2"
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/dflydev/dflydev-markdown/zipball/v1.0.2",
-                "reference": "v1.0.2",
+                "url": "https://api.github.com/repos/dflydev/dflydev-markdown/zipball/6baed9b50f29c980795b6656d43722aadb126f7e",
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "dflydev\\markdown": "src"
@@ -81,7 +86,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "New BSD License"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -108,7 +113,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2012-01-15 19:36:37"
+            "time": "2013-09-23 12:00:18"
         },
         {
             "name": "kukulich/fshl",
@@ -201,12 +206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nubs/bizgolf.git",
-                "reference": "4ddf8506bf83517f7c10dba2761b6de23b654586"
+                "reference": "0d82743394fd7080917457e933a6b71df2d90ec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/4ddf8506bf83517f7c10dba2761b6de23b654586",
-                "reference": "4ddf8506bf83517f7c10dba2761b6de23b654586",
+                "url": "https://api.github.com/repos/nubs/bizgolf/zipball/0d82743394fd7080917457e933a6b71df2d90ec9",
+                "reference": "0d82743394fd7080917457e933a6b71df2d90ec9",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +245,7 @@
                 "docker",
                 "hackathon"
             ],
-            "time": "2013-09-22 02:04:13"
+            "time": "2013-09-24 18:24:28"
         },
         {
             "name": "nubs/hiatus",
