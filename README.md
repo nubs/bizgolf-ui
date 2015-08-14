@@ -86,4 +86,5 @@ A better setup for production hosting would be apache or nginx.  For example, he
 Any changes, suggestions, or bug reports are welcome to be submitted on github. Pull requests are welcome!
 
 ## License
-This project is licensed under the MIT License.
+bizgolf-ui is licensed under the MIT license.  See [LICENSE](LICENSE) for the
+full license text.
